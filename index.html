@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hassan Khalid — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ LOADER ============ -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p class="loader-text">ESTABLISHING UPLINK<span class="dots"></span></p>
+    </div>
+  </div>
+
+  <!-- ============ LAUNCH SEQUENCE OVERLAY (countdown + shockwaves) ============ -->
+  <div id="launch-overlay" aria-hidden="true">
+    <div class="shockwave"></div>
+    <div class="shockwave shock-2"></div>
+    <div class="boot-wrap mono">
+      <p class="boot-title">LAUNCH CONTROL // PRE-FLIGHT</p>
+      <div class="boot-log">
+        <p class="boot-line">&gt; CORE SYSTEMS<span class="lead"></span><b>CHECKED</b></p>
+        <p class="boot-line">&gt; NAVIGATION<span class="lead"></span><b>LOCKED</b></p>
+        <p class="boot-line">&gt; FUEL — COFFEE<span class="lead"></span><b>98.6%</b></p>
+        <p class="boot-line">&gt; CREATIVE MODULES<span class="lead"></span><b>LOADED</b></p>
+        <p class="boot-line">&gt; COMMS ARRAY<span class="lead"></span><b>ONLINE</b></p>
+        <p class="boot-line boot-go">&gt;&gt; ALL SYSTEMS GO — LIFTOFF</p>
+      </div>
+      <div class="boot-bar-row">
+        <div class="boot-bar"><span class="boot-bar-fill"></span></div>
+        <span class="boot-pct"><b id="boot-pct-val">0</b>%</span>
+      </div>
+    </div>
+  </div>
+  <div id="ignite-flash" aria-hidden="true"></div>
+
+  <!-- ============ 3D CANVAS (fixed behind everything) ============ -->
+  <canvas id="bg"></canvas>
+
+  <!-- ============ SCROLL PROGRESS BAR ============ -->
+  <div id="progress-bar"></div>
+
+  <!-- ============ TOP BAR ============ -->
+  <header id="topbar">
+    <a href="#hero" class="logo hoverable">&lt;PORTFOLIO/&gt;</a>
+    <!-- Mission-control nav: only shown while the launch section fills the screen,
+         fades out the moment you scroll away (see updateHeaderNav in main.js) -->
+    <nav id="header-nav" class="mono">
+      <a href="#about" class="hoverable">About</a>
+      <a href="#skills" class="hoverable">Skills</a>
+      <a href="#projects" class="hoverable">Projects</a>
+      <a href="#contact" class="hoverable">Contact</a>
+    </nav>
+    <span class="zone-label" id="zone-label">// 001 — LAUNCH</span>
+  </header>
+
+  <!-- ============ SIDE NAV DOTS ============ -->
+  <nav id="dots-nav">
+    <a href="#hero"      class="dot hoverable" data-label="Launch"></a>
+    <a href="#about"     class="dot hoverable" data-label="About"></a>
+    <a href="#skills"    class="dot hoverable" data-label="Skills"></a>
+    <a href="#projects"  class="dot hoverable" data-label="Web Projects"></a>
+    <a href="#lab"       class="dot hoverable" data-label="Engineering Lab"></a>
+    <a href="#experience" class="dot hoverable" data-label="Experience"></a>
+    <a href="#certifications" class="dot hoverable" data-label="Certifications"></a>
+    <a href="#education" class="dot hoverable" data-label="Education"></a>
+    <a href="#shortfilms" class="dot hoverable" data-label="Short Films"></a>
+    <a href="#interests" class="dot hoverable" data-label="Interests"></a>
+    <a href="#contact"   class="dot hoverable" data-label="Contact"></a>
+  </nav>
+
+  <!-- ============ LEFT SOCIAL RAIL (zone-colored, always visible) ============ -->
+  <nav id="social-rail">
+    <a href="mailto:hassank8125@gmail.com" class="social-dot social-dot-gmail hoverable" data-label="hassank8125@gmail.com" aria-label="Gmail">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.379.128-.75.365-1.05.362-.475.958-.734 1.575-.684.36.029.708.157.995.368L12 10.114l9.065-6.023c.287-.21.635-.339.995-.368a1.636 1.636 0 0 1 1.575.684c.237.3.365.671.365 1.05z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/hassankhalid8/" target="_blank" rel="noopener" class="social-dot hoverable" data-label="LinkedIn" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 18.34V9.75H5.67v8.59h2.67zM7 8.48a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1zm11.34 9.86v-4.71c0-2.52-1.34-3.69-3.13-3.69-1.44 0-2.09.79-2.45 1.35v-1.54H10.1c.04.75 0 8.59 0 8.59h2.66v-4.8c0-.26.02-.51.1-.7.19-.51.63-1.04 1.37-1.04.96 0 1.35.77 1.35 1.9v4.64h2.76z"/></svg>
+    </a>
+    <a href="https://github.com/HassanKhalid8" target="_blank" rel="noopener" class="social-dot hoverable" data-label="GitHub" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.01 2.79-.01 3.17 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+    </a>
+    <span class="social-rail-line"></span>
+  </nav>
+
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ============ CONTENT ============ -->
+  <main id="content">
+
+    <!-- ========== 01 · HERO / LAUNCH ========== -->
+    <section id="hero" class="section" data-zone="0">
+      <!-- Cockpit HUD: corner brackets + live telemetry (mission clock, altitude, cursor) -->
+      <div class="hud" aria-hidden="true">
+        <span class="hud-corner hud-tl"></span>
+        <span class="hud-corner hud-tr"></span>
+        <span class="hud-corner hud-bl"></span>
+        <span class="hud-corner hud-br"></span>
+        <span class="hud-readout hud-fuel mono">FUEL: COFFEE <b id="hud-fuel-val">99.9</b>%</span>
+        <span class="hud-readout hud-clock mono">T+ <b id="hud-elapsed-val">00:00:00</b> · <b id="hud-clock-val">--:--:--</b> MISSION CLOCK</span>
+        <span class="hud-readout hud-coords mono">CUR <b id="hud-coords-val">X 0.500 · Y 0.500</b></span>
+      </div>
+      <div class="section-inner hero-inner">
+        <div class="hero-photo" id="hero-photo">
+          <div class="hero-photo-frame hoverable">
+            <div class="photo-orb"></div>
+            <div class="photo-ring"></div>
+            <div class="photo-ring photo-ring-2"></div>
+            <img src="assets/profile-cutout.png" alt="Hassan Khalid" />
+            <div class="holo-scan" aria-hidden="true"></div>
+            <!-- scanner lens: cartoon version revealed only under the cursor -->
+            <div class="scan-lens" aria-hidden="true">
+              <img src="assets/cartoon2.png" alt="" />
+            </div>
+            <div class="scan-ring" aria-hidden="true"></div>
+            <span class="float-chip fc-1 mono">&lt;/&gt; FULL-STACK</span>
+            <span class="float-chip fc-2 mono">🎬 FILMMAKER</span>
+            <span class="float-chip fc-3 mono">🤖 AI / ML</span>
+            <span class="float-chip fc-4 mono">⚙ COMPUTER ENGINEER</span>
+            <span class="float-chip fc-5 mono">✏ UI/UX DESIGNER</span>
+            <div class="hero-photo-tag mono">
+              <span>PILOT — H. KHALID</span>
+              <span class="status-dot">● ONLINE</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-text">
+          <p class="reveal eyebrow mono">// TRANSMISSION INCOMING — HI, I'M</p>
+          <h1 class="reveal hero-name hoverable" id="hero-name">
+            <span class="line">HASSAN</span>
+            <span class="line gradient-text">KHALID</span>
+          </h1>
+          <p class="reveal hero-tagline">
+            <span class="mono" id="typewriter"></span><span class="caret">▍</span>
+          </p>
+          <div class="reveal hero-meta mono">
+            <span class="meta-chip hoverable">📍 BASED IN KARACHI</span>
+            <span class="meta-chip hoverable">🎓 GIKI — CLASS OF 2027</span>
+            <span class="meta-chip meta-chip-live hoverable"><span class="pulse-dot"></span>OPEN TO REMOTE JOBS</span>
+          </div>
+          <div class="reveal hero-cta">
+            <a href="#projects" class="btn btn-solid hoverable">Explore My Work</a>
+            <a href="#contact" class="btn btn-ghost hoverable">Make Contact</a>
+          </div>
+          <div class="reveal hero-stats mono">
+            <span class="hs-item"><b>3+</b> YRS CODING</span>
+            <span class="hs-sep">//</span>
+            <span class="hs-item"><b>15+</b> PROJECTS</span>
+            <span class="hs-sep">//</span>
+            <span class="hs-item"><b>VP</b> MEDIA CLUB</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <span class="mono">SCROLL TO BEGIN JOURNEY</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ========== 02 · ABOUT ========== -->
+    <section id="about" class="section" data-zone="1" data-num="02">
+      <div class="section-inner">
+        <p class="reveal section-num mono">// 002</p>
+        <h2 class="reveal section-title">ABOUT<span class="accent">.</span></h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p class="reveal lead">
+              A computer engineering student surviving on caffeine and building
+              things that live on the internet.
+            </p>
+            <p class="reveal">
+              I am a final-year Computer Engineering student at GIKI who thrives at
+              the intersection of technical precision and digital execution.
+              Specializing in full-stack web and mobile application development,
+              I bridge the gap between hardware and software to build
+              production-ready digital systems; usually fueled by a perfectly
+              timed cup of coffee. When I'm not debugging or designing backend
+              architectures, I channel my problem-solving energy into visual
+              storytelling as a filmmaker, video editor, and the Vice President
+              of the GIKI Media Club.
+            </p>
+            <p class="reveal">
+              Currently, I am focused on deploying machine learning models into
+              production environments, refining my full-stack workflow, and
+              tackling my final year engineering milestones. I am actively looking
+              for opportunities to collaborate on innovative software engineering,
+              AI, or creative tech projects where I can build impactful solutions
+              from the ground up.
+            </p>
+          </div>
+          <div class="reveal about-stats">
+            <div class="stat-line hoverable">
+              <span class="stat-value mono"><span class="stat-num" data-count="3">0</span>+</span>
+              <span class="stat-label">Years Coding</span>
+            </div>
+            <div class="stat-line hoverable">
+              <span class="stat-value mono"><span class="stat-num" data-count="15">0</span>+</span>
+              <span class="stat-label">Projects Built</span>
+            </div>
+            <div class="stat-line hoverable">
+              <span class="stat-value mono"><span class="stat-num" data-count="7">0</span></span>
+              <span class="stat-label">Technologies</span>
+            </div>
+            <div class="stat-line hoverable">
+              <span class="stat-value mono"><span class="stat-num" data-count="450">0</span>+</span>
+              <span class="stat-label">Cups of Coffee</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status log: terminal-style "currently focused on" panel -->
+        <div class="reveal about-now">
+          <div class="about-now-head mono">
+            <span class="about-now-dot"></span>
+            <span>STATUS_LOG</span>
+            <span class="about-now-tag">// CURRENT FOCUS</span>
+          </div>
+          <div class="about-now-lines mono">
+            <p class="about-now-line"><span class="about-now-fill"></span><b>DEPLOYING ML MODELS TO PRODUCTION</b></p>
+            <p class="about-now-line"><span class="about-now-fill"></span><b>REFINING FULL-STACK WORKFLOW</b></p>
+            <p class="about-now-line"><span class="about-now-fill"></span><b>FINAL-YEAR ENGINEERING MILESTONES</b></p>
+            <p class="about-now-line about-now-open"><span class="about-now-fill"></span><b>OPEN TO AI / SOFTWARE COLLABS</b><span class="caret">▍</span></p>
+          </div>
+        </div>
+
+        <!-- Build process: scanning timeline that sweeps left-to-right, lighting up
+             each step in turn. Add/remove .process-card blocks to change step count —
+             the JS reads however many are present. -->
+        <div class="reveal about-process">
+          <p class="process-eyebrow mono">// METHOD</p>
+          <h3 class="process-title">How I Build a Successful Project<span class="accent">.</span></h3>
+
+          <div class="process-track">
+            <span class="process-line"></span>
+            <span class="process-scanner"></span>
+            <span class="process-tick" style="left:12.5%"><b class="mono">01</b></span>
+            <span class="process-tick" style="left:37.5%"><b class="mono">02</b></span>
+            <span class="process-tick" style="left:62.5%"><b class="mono">03</b></span>
+            <span class="process-tick" style="left:87.5%"><b class="mono">04</b></span>
+          </div>
+
+          <div class="process-grid">
+            <span class="process-fill"></span>
+            <article class="process-card is-active">
+              <span class="process-num mono">01</span>
+              <h4>Scope</h4>
+              <p>Nail the problem before the tech — a clear scope beats a clever stack every time.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-num mono">02</span>
+              <h4>Prototype</h4>
+              <p>Get an ugly version working end-to-end fast; momentum reveals what actually matters.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-num mono">03</span>
+              <h4>Refine</h4>
+              <p>Cut what doesn't earn its place — the same instinct that shapes a film in the edit.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-num mono">04</span>
+              <h4>Ship</h4>
+              <p>Ship it, then keep listening — real feedback is the only spec that counts.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 03 · SKILLS ========== -->
+    <section id="skills" class="section" data-zone="2" data-num="03">
+      <div class="section-inner">
+        <p class="reveal section-num mono">// 003</p>
+        <h2 class="reveal section-title">SKILLS<span class="accent">.</span></h2>
+
+        <!-- SKILL BAY: an interactive ship-systems console. Categories are
+             "systems" selected from the left rack; the display panel warps the
+             matching modules in with a scanline sweep, auto-cycling until
+             hovered. Every chip is identical — a toolkit, not a leaderboard.
+             Skill data lives in SKILL_SYSTEMS at the bottom of js/main.js. -->
+        <div class="reveal skillbay-ledger mono">
+          <span class="skillbay-led" aria-hidden="true"></span>
+          <span class="ledger-item">SYSTEMS REGISTRY <b><span class="stat-num" data-count="36">0</span> MODULES</b></span>
+          <span class="ledger-sep" aria-hidden="true">·</span>
+          <span class="ledger-item">RACKS <b>05</b></span>
+          <span class="skillbay-ledger-note">SCATTER-MAPPED</span>
+        </div>
+
+        <div class="reveal skillbay">
+          <div class="skillbay-tabs" id="skillbay-tabs" role="tablist" aria-label="Skill categories"></div>
+          <div class="skillbay-panel" id="skillbay-panel">
+            <span class="sb-corner sb-tl" aria-hidden="true"></span>
+            <span class="sb-corner sb-tr" aria-hidden="true"></span>
+            <span class="sb-corner sb-bl" aria-hidden="true"></span>
+            <span class="sb-corner sb-br" aria-hidden="true"></span>
+            <div class="skillbay-head mono">
+              <span class="sb-cat-line" id="sb-cat-line">&gt; BOOTING…</span>
+              <span class="sb-cat-count" id="sb-cat-count"></span>
+            </div>
+            <div class="skillbay-chips" id="skillbay-chips"></div>
+            <div class="skillbay-scan" id="skillbay-scan" aria-hidden="true"></div>
+            <div class="skillbay-foot mono">
+              <span aria-hidden="true">SCATTER MAP — NODE POSITIONS RANDOMIZED · HOVER TO HOLD</span>
+              <span class="caret" aria-hidden="true">▍</span>
+              <button type="button" id="skillbay-rescatter" class="sb-rescatter mono">RE-SCATTER ⟲</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Infinite marquee: identity tags (mirrors the hero photo chips),
+             deliberately not skills so nothing here reads as a ranking -->
+        <div class="reveal marquee" aria-hidden="true">
+          <div class="marquee-track">
+            <!-- half 1 -->
+            <span>FULL-STACK</span><span>✦</span><span>FILMMAKER</span><span>✦</span>
+            <span>AI / ML</span><span>✦</span><span>COMPUTER ENGINEER</span><span>✦</span>
+            <span>UI/UX DESIGNER</span><span>✦</span>
+            <span>FULL-STACK</span><span>✦</span><span>FILMMAKER</span><span>✦</span>
+            <span>AI / ML</span><span>✦</span><span>COMPUTER ENGINEER</span><span>✦</span>
+            <span>UI/UX DESIGNER</span><span>✦</span>
+            <!-- half 2 (identical, for the seamless -50% loop) -->
+            <span>FULL-STACK</span><span>✦</span><span>FILMMAKER</span><span>✦</span>
+            <span>AI / ML</span><span>✦</span><span>COMPUTER ENGINEER</span><span>✦</span>
+            <span>UI/UX DESIGNER</span><span>✦</span>
+            <span>FULL-STACK</span><span>✦</span><span>FILMMAKER</span><span>✦</span>
+            <span>AI / ML</span><span>✦</span><span>COMPUTER ENGINEER</span><span>✦</span>
+            <span>UI/UX DESIGNER</span><span>✦</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 04 · PROJECTS ========== -->
+    <section id="projects" class="section" data-zone="3" data-num="04">
+      <div class="section-inner wide">
+        <p class="reveal section-num mono">// 004</p>
+        <h2 class="reveal section-title">WEB PROJECTS<span class="accent">.</span></h2>
+
+        <!-- Each project = one large full-width panel with a browser-window
+             mockup thumbnail. To use a real screenshot: replace the .thumb-ph
+             div inside .browser-body with <img src="assets/project1.jpg" alt="NOVA-16 screenshot" /> -->
+        <article class="reveal project-card project-xl hoverable">
+          <div class="project-thumb">
+            <div class="browser-mock">
+              <div class="browser-bar">
+                <span class="browser-dot dot-red"></span>
+                <span class="browser-dot dot-yellow"></span>
+                <span class="browser-dot dot-green"></span>
+                <span class="browser-url mono">nova-16-enhanced-isa-emulator.vercel.app</span>
+              </div>
+              <div class="browser-body">
+                <img src="assets/project1.jpg" alt="NOVA-16 Enhanced ISA Emulator interface" />
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-num mono">PROJECT — 01</span>
+            <h3>NOVA-16 Enhanced ISA Emulator</h3>
+            <p>A browser-based emulator for a custom 16-bit RISC architecture featuring
+              a pipeline visualizer, cache simulator, hazard detection, and an
+              AI-powered assembly code generator.</p>
+            <div class="project-tags mono"><span>Python</span><span>Flask</span><span>JavaScript</span><span>HTML/CSS</span><span>Gemini API</span></div>
+            <div class="project-links mono">
+              <a href="https://github.com/HassanKhalid8/NOVA-16_Enhanced-ISA-Emulator" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+              <a href="https://nova-16-enhanced-isa-emulator.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal project-card project-xl flip hoverable">
+          <div class="project-thumb">
+            <div class="browser-mock">
+              <div class="browser-bar">
+                <span class="browser-dot dot-red"></span>
+                <span class="browser-dot dot-yellow"></span>
+                <span class="browser-dot dot-green"></span>
+                <span class="browser-url mono">job-connect-delta-woad.vercel.app</span>
+              </div>
+              <div class="browser-body">
+                <img src="assets/project2.jpg" alt="JobConnect interface" />
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-num mono">PROJECT — 02</span>
+            <h3>JobConnect</h3>
+            <p>A modern, serverless full-stack recruitment platform built with React
+              and Firebase that streamlines hiring by connecting job seekers and
+              employers through real-time data management and automated
+              communication workflows.</p>
+            <div class="project-tags mono"><span>React.js</span><span>CSS</span><span>Firebase</span><span>Vercel</span><span>EmailJS</span></div>
+            <div class="project-links mono">
+              <a href="https://github.com/HassanKhalid8/Job-Connect" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+              <a href="https://job-connect-delta-woad.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ========== 05 · ENGINEERING LAB ========== -->
+    <section id="lab" class="section" data-zone="4" data-num="05">
+      <div class="section-inner wide">
+        <p class="reveal section-num mono">// 005</p>
+        <h2 class="reveal section-title">ENGINEERING LAB<span class="accent">.</span></h2>
+        <p class="reveal lab-intro">Hardware, signals & core CS — builds from the workbench and the terminal.</p>
+
+        <!-- Workbench status ticker -->
+        <div class="reveal lab-bench mono" aria-hidden="true">
+          <span>BENCH PWR — <b>ON</b></span>
+          <span>SOLDER IRON — <b>350°C</b></span>
+          <span>SCOPE — <b>CH1 ARMED</b></span>
+          <span>EXPERIMENTS — <b>09 LOGGED</b></span>
+        </div>
+
+        <!-- Oscilloscope divider: signal flows along the trace on loop -->
+        <div class="reveal lab-scope" aria-hidden="true">
+          <svg viewBox="0 0 600 46" preserveAspectRatio="none">
+            <path class="scope-wave" d="M0 23 H40 l6 -10 l6 20 l6 -10 H100 l5 -16 l6 32 l5 -16 H170 l7 -8 l7 16 l7 -8 H240 l5 -14 l6 28 l5 -14 H320 l8 -6 l8 12 l8 -6 H400 l5 -17 l6 34 l5 -17 H470 l6 -9 l6 18 l6 -9 H540 l5 -13 l6 26 l5 -13 H600" />
+          </svg>
+          <span class="lab-scope-label mono">CH1 · 2V/DIV</span>
+        </div>
+
+        <!-- Category filters: clicking animates matching experiments in/out -->
+        <div class="reveal lab-filters mono">
+          <button type="button" class="lab-filter is-on hoverable" data-filter="all">ALL<b>09</b></button>
+          <button type="button" class="lab-filter hoverable" data-filter="software">SOFTWARE<b>03</b></button>
+          <button type="button" class="lab-filter hoverable" data-filter="hardware">HARDWARE<b>03</b></button>
+          <button type="button" class="lab-filter hoverable" data-filter="signals">SIGNALS &amp; MATH<b>03</b></button>
+        </div>
+
+        <!-- Each experiment ends with one artifact link. Three kinds:
+               CODE      → paste the GitHub repo URL into href
+               SCHEMATIC → drop the image/PDF into assets/lab/ and point href at it
+               REPORT    → drop the PDF into assets/lab/ and point href at it
+             Cards with [bracketed] titles are waiting for real names. -->
+        <div class="lab-grid">
+
+          <article class="lab-card hoverable" data-group="software">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-01</span>
+              <span class="lab-cat">OOP</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Virtual Pet Adoption System</h3>
+            <p>Designed and built a text-based console simulator featuring an integrated multi-tier pet management system, dynamic state tracking, and mini-game economies.</p>
+            <div class="project-tags mono"><span>C++</span><span>OOP Design</span></div>
+            <a href="https://github.com/HassanKhalid8/Virtual-Pet-Adoption-System" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="software">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-02</span>
+              <span class="lab-cat">DSA</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Online Store Management System</h3>
+            <p>Developed a console-based online store management system leveraging custom-built data structures, including a Binary Search Tree (BST) for high-efficiency product inventory indexing and a linear Queue for sequential order processing.</p>
+            <div class="project-tags mono"><span>C++</span><span>Data Structures</span></div>
+            <a href="https://github.com/HassanKhalid8/Online-Store-Management-System" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="hardware">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-03</span>
+              <span class="lab-cat">DLD</span>
+              <span class="lab-artifact"><span class="lab-led"></span>REPORT</span>
+            </div>
+            <h3>IC-Based Smart Door Lock</h3>
+            <p>Designed a hardware-based electronic security system using five 4017 decade counters and a multi-input AND gate to validate precise sequential pulse inputs for a code-lock mechanism.</p>
+            <div class="project-tags mono"><span>Logic ICs</span></div>
+            <a href="assets/Door%20Lock.pdf" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW REPORT ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="hardware">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-04</span>
+              <span class="lab-cat">ELECTRONICS</span>
+              <span class="lab-artifact"><span class="lab-led"></span>REPORT</span>
+            </div>
+            <h3>Metal Detector</h3>
+            <p>Developed an inductive proximity metal detector using a TDA0161 IC and a custom-wound AWG wire search coil to sound a buzzer via transistor amplification upon detecting localized electromagnetic changes.</p>
+            <div class="project-tags mono"><span>Analog Circuits</span></div>
+            <a href="assets/Metal%20Detector.pdf" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW REPORT ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="hardware">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-05</span>
+              <span class="lab-cat">MICROPROCESSOR</span>
+              <span class="lab-artifact"><span class="lab-led"></span>BUILD</span>
+            </div>
+            <h3>Smart IoT Kitchen</h3>
+            <p>An ESP32-powered kitchen that watches itself — gas, flame and temperature sensors stream to a dashboard with remote alerts and appliance control.</p>
+            <div class="project-tags mono"><span>ESP32</span><span>IoT</span><span>Sensors</span><span>Blynk</span><span>Arduino IDE</span></div>
+          </article>
+
+          <article class="lab-card hoverable" data-group="signals">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-06</span>
+              <span class="lab-cat">SIGNALS</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Exoplanet Signal Detection</h3>
+            <p>Engineered a MATLAB-based Exoplanet Transit Detection System featuring an interactive GUI, Box Least Squares (BLS) signal filtering algorithms, and interactive 3D orbital modeling to process raw light-curve data.</p>
+            <div class="project-tags mono"><span>MATLAB</span><span>Signal Processing</span></div>
+            <a href="https://github.com/HassanKhalid8/Exoplanet-Transit-Detection-System" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="signals">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-07</span>
+              <span class="lab-cat">DSP</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Adaptive Radar Signal Processing</h3>
+            <p>Engineered a MATLAB-based radar detection pipeline featuring LFM pulse compression with matched filtering, MTI clutter suppression, 2D range-Doppler FFT analysis, and adaptive CFAR thresholding across simulated X-band scenarios.</p>
+            <div class="project-tags mono"><span>DSP</span><span>MATLAB</span></div>
+            <a href="https://github.com/HassanKhalid8/adaptive-radar-signal-processing" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="signals">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-08</span>
+              <span class="lab-cat">NUMERICAL METHODS</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Principal Component Analysis</h3>
+            <p>Co-authored a scratch-built Principal Component Analysis (PCA) engine in Python to process and denoise a 167-country socioeconomic dataset, evaluating custom matrix decomposition and four-metric Mean Squared Error (MSE) analysis against scikit-learn benchmarks.</p>
+            <div class="project-tags mono"><span>Numerical Analysis</span><span>Python</span></div>
+            <a href="https://github.com/HassanKhalid8/Prncipal-Component-Analysis-CMT" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+          <article class="lab-card hoverable" data-group="software">
+            <span class="lab-scan" aria-hidden="true"></span>
+            <div class="lab-card-top mono">
+              <span class="lab-id">EXP-09</span>
+              <span class="lab-cat">NETWORKS</span>
+              <span class="lab-artifact"><span class="lab-led"></span>CODE</span>
+            </div>
+            <h3>Instant Messaging</h3>
+            <p>Engineered a client-server instant messaging application in Python utilizing multi-threaded TCP sockets, custom binary framing, and synchronized queue state processing to handle concurrent broadcast and unicast message routing through a Tkinter GUI.</p>
+            <div class="project-tags mono"><span>Python</span><span>TCP Sockets</span><span>Multithreading</span><span>Tkinter</span></div>
+            <a href="https://github.com/HassanKhalid8/instant-messaging" target="_blank" rel="noopener" class="lab-link mono hoverable">VIEW CODE ↗</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 06 · EXPERIENCE ========== -->
+    <section id="experience" class="section" data-zone="5" data-num="06">
+      <div class="section-inner">
+        <p class="reveal section-num mono">// 006</p>
+        <h2 class="reveal section-title">EXPERIENCE<span class="accent">.</span></h2>
+        <!-- Compact timeline: date | spine node | slim card.
+             "VIEW CERTIFICATE" links open the image in a new tab —
+             drop the file into assets/ with the matching name. -->
+        <div class="exp-timeline">
+          <div class="reveal exp-item hoverable">
+            <div class="exp-when mono">JUL 2026 —<br />PRESENT</div>
+            <span class="exp-node"></span>
+            <div class="exp-body">
+              <div class="exp-title-row">
+                <h3>ENUMS</h3>
+                <span class="exp-mode mono">ON-SITE</span>
+              </div>
+              <p class="exp-role">Full-Stack Intern</p>
+              <p class="exp-desc">Bridging client-side aesthetics with robust server-side logic to develop clean, efficient, and user-centric digital solutions.</p>
+            </div>
+          </div>
+          <div class="reveal exp-item hoverable">
+            <div class="exp-when mono">JUL 2026 —<br />PRESENT</div>
+            <span class="exp-node"></span>
+            <div class="exp-body">
+              <div class="exp-title-row">
+                <h3>FlyRank AI</h3>
+                <span class="exp-mode mono">REMOTE</span>
+              </div>
+              <p class="exp-role">Machine Learning Intern</p>
+              <p class="exp-desc">Bridging the gap between data science and production environments by building scalable ML pipelines and implementing efficient algorithms.</p>
+            </div>
+          </div>
+          <div class="reveal exp-item hoverable">
+            <div class="exp-when mono">JUN 2024 —<br />AUG 2024</div>
+            <span class="exp-node"></span>
+            <div class="exp-body">
+              <div class="exp-title-row">
+                <h3>NCL</h3>
+                <span class="exp-mode mono">ON-SITE</span>
+              </div>
+              <p class="exp-role">AI Intern</p>
+              <p class="exp-desc">Bridging the gap between intelligent algorithms and scalable software by integrating cutting-edge AI models into functional, user-centric applications.</p>
+              <a href="assets/interncert.jpg" target="_blank" rel="noopener" class="exp-cert-link mono hoverable">VIEW CERTIFICATE ↗</a>
+            </div>
+          </div>
+          <div class="reveal exp-item hoverable">
+            <div class="exp-when mono">SEP 2023 —<br />PRESENT</div>
+            <span class="exp-node"></span>
+            <div class="exp-body">
+              <div class="exp-title-row">
+                <h3>Media Club, GIKI</h3>
+                <span class="exp-mode mono">ON-SITE</span>
+              </div>
+              <p class="exp-role">Vice President</p>
+              <p class="exp-desc">Joined in my very first days at GIKI purely out of a passion for video editing — the society went on to teach me everything I know about production. Today I serve as its Vice President, leading the same teams and productions that shaped me.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 07 · CERTIFICATIONS ========== -->
+    <section id="certifications" class="section" data-zone="6" data-num="07">
+      <div class="section-inner wide">
+        <p class="reveal section-num mono">// 007</p>
+        <h2 class="reveal section-title">CERTIFICATIONS<span class="accent">.</span></h2>
+
+        <!-- Registry ledger: live-console readout with counting totals -->
+        <div class="reveal cert-ledger mono">
+          <span class="cert-led" aria-hidden="true"></span>
+          <span class="ledger-item">CREDENTIALS <b><span class="cert-count" data-count="5">0</span></b></span>
+          <span class="ledger-sep" aria-hidden="true">·</span>
+          <span class="ledger-item">SPAN <b>2025 — 2026</b></span>
+          <span class="ledger-status">REGISTRY VERIFIED ✓</span>
+        </div>
+
+        <!-- Each card flips 180° on hover (tap on touch) to reveal the certificate;
+             clicking the revealed side opens the full-size lightbox.
+             ID tags + zoom hints are injected by JS. -->
+        <div class="certs-wrap">
+          <div class="certs-beam" aria-hidden="true"></div>
+          <div class="certs-grid">
+            <div class="cert-card hoverable">
+              <div class="cert-inner">
+                <div class="cert-front">
+                  <span class="cert-seal mono" aria-hidden="true">✓</span>
+                  <span class="cert-icon">◆</span>
+                <h3>IC Design Summer School</h3>
+                <p class="cert-issuer">DreamBig</p>
+                <span class="cert-date mono">AUG 2025</span>
+                <p class="cert-desc">Participated in an intensive IC design summer school focused on modern semiconductor design workflows and EDA tool implementation.</p>
+                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
+              </div>
+              <div class="cert-back">
+                <img src="assets/cert1.jpg" alt="IC Design Summer School certificate" />
+              </div>
+            </div>
+          </div>
+            <div class="cert-card hoverable">
+              <div class="cert-inner">
+                <div class="cert-front">
+                  <span class="cert-seal mono" aria-hidden="true">✓</span>
+                  <span class="cert-icon">◆</span>
+                <h3>Vice President</h3>
+                <p class="cert-issuer">Media Club, GIKI</p>
+                <span class="cert-date mono">MAY 2026</span>
+                <p class="cert-desc">Spearheading internal operations and cross-functional team coordination to execute high-impact media campaigns and large-scale campus productions.</p>
+                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
+              </div>
+              <div class="cert-back">
+                <!-- temporary: handover photo until the real certificate scan arrives -->
+                <img src="assets/cert2.jpg" alt="Receiving the Vice President certificate" />
+              </div>
+            </div>
+          </div>
+            <div class="cert-card hoverable">
+              <div class="cert-inner">
+                <div class="cert-front">
+                  <span class="cert-seal mono" aria-hidden="true">✓</span>
+                  <span class="cert-icon">◆</span>
+                <h3>AI Fluency: Framework &amp; Foundations</h3>
+                <p class="cert-issuer">Anthropic</p>
+                <span class="cert-date mono">MAY 2026</span>
+                <p class="cert-desc">Trained in Anthropic's 4D framework — delegation, description, discernment and diligence — for collaborating with AI effectively, efficiently and responsibly.</p>
+                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
+              </div>
+              <div class="cert-back cert-back-fill" style="background: #798c5e;">
+                <img src="assets/cert-ai-fluency.jpg" alt="AI Fluency: Framework &amp; Foundations certificate" />
+              </div>
+            </div>
+          </div>
+            <div class="cert-card hoverable">
+              <div class="cert-inner">
+                <div class="cert-front">
+                  <span class="cert-seal mono" aria-hidden="true">✓</span>
+                  <span class="cert-icon">◆</span>
+                <h3>Claude 101</h3>
+                <p class="cert-issuer">Anthropic</p>
+                <span class="cert-date mono">JUN 2026</span>
+                <p class="cert-desc">Covered the foundations of working with Claude — model capabilities, prompting techniques and practical workflows for getting reliable results from frontier AI.</p>
+                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
+              </div>
+              <div class="cert-back cert-back-fill" style="background: #e3dacb;">
+                <img src="assets/cert-claude-101.jpg" alt="Claude 101 certificate" />
+              </div>
+            </div>
+          </div>
+            <div class="cert-card hoverable">
+              <div class="cert-inner">
+                <div class="cert-front">
+                  <span class="cert-seal mono" aria-hidden="true">✓</span>
+                  <span class="cert-icon">◆</span>
+                <h3>Claude Code 101</h3>
+                <p class="cert-issuer">Anthropic</p>
+                <span class="cert-date mono">JUL 2026</span>
+                <p class="cert-desc">Hands-on agentic development with Claude Code — planning, tool use and driving real codebases from the terminal with an AI coding agent.</p>
+                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
+              </div>
+              <div class="cert-back cert-back-fill" style="background: #798c5e;">
+                <img src="assets/cert-claude-code-101.jpg" alt="Claude Code 101 certificate" />
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 08 · EDUCATION ========== -->
+    <section id="education" class="section" data-zone="7" data-num="08">
+      <div class="section-inner">
+        <p class="reveal section-num mono">// 008</p>
+        <h2 class="reveal section-title">EDUCATION<span class="accent">.</span></h2>
+        <!-- Center-line timeline: entries alternate left / right of a glowing spine -->
+        <div class="edu-timeline">
+          <div class="reveal edu-tl-item hoverable">
+            <span class="edu-tl-node"></span>
+            <div class="edu-tl-card">
+              <span class="edu-tl-year mono">2023 — 2027</span>
+              <h3>Bachelors in Computer Engineering</h3>
+              <p class="edu-place">Ghulam Ishaq Khan Institute of Engineering Sciences &amp; Technology (GIKI), Topi</p>
+              <p class="edu-desc">Pursuing a bachelor's degree in Computer Engineering and is stuck between assignments and deadlines.</p>
+            </div>
+          </div>
+          <div class="reveal edu-tl-item hoverable">
+            <span class="edu-tl-node"></span>
+            <div class="edu-tl-card">
+              <span class="edu-tl-year mono">2021 — 2023</span>
+              <h3>Fsc Pre-Engineering</h3>
+              <p class="edu-place">Punjab Group of Colleges, Kot Addu</p>
+              <p class="edu-desc">Completed Intermediate with a Pre-Engineering focus, establishing a strong foundation in mathematics and sciences.</p>
+            </div>
+          </div>
+          <div class="reveal edu-tl-item hoverable">
+            <span class="edu-tl-node"></span>
+            <div class="edu-tl-card">
+              <span class="edu-tl-year mono">2012 — 2021</span>
+              <h3>Matriculation</h3>
+              <p class="edu-place">The City School, Kot Addu</p>
+              <p class="edu-desc">Completed Matriculation with a Computer focus, establishing a strong fundamental groundwork in mathematics, physics, and analytical thinking.</p>
+            </div>
+          </div>
+          <div class="reveal edu-tl-item hoverable">
+            <span class="edu-tl-node"></span>
+            <div class="edu-tl-card">
+              <span class="edu-tl-year mono">2009 — 2012</span>
+              <h3>Early Schooling</h3>
+              <p class="edu-place">Sultan Muhammad Shah Agha Khan School, Karachi</p>
+              <p class="edu-desc">To be honest, I barely remember that school. I was just a kid back then; living completely in the moment, entirely untouched by the weight of the future.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 09 · SHORT FILMS ========== -->
+    <section id="shortfilms" class="section" data-zone="8" data-num="09">
+      <div class="section-inner wide">
+        <p class="reveal section-num mono">// 009</p>
+        <h2 class="reveal section-title">SHORT FILMS<span class="accent">.</span></h2>
+        <p class="reveal films-intro">An engineering student making short films? You read that right. Every year at the GIKI Media Club — the society I'm part of — we're tasked with producing a short film. These projects have taken serious time and energy, so they've more than earned their place here.</p>
+        <!-- Poster: replace .poster-ph with <img src="assets/film1-poster.jpg" alt="Poster" />
+             Trailer: replace .trailer-ph with
+             <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Trailer" allowfullscreen></iframe> -->
+        <article class="reveal film-card hoverable">
+          <div class="film-poster">
+            <img src="assets/film1-poster.jpg" alt="AKS film poster" />
+          </div>
+          <div class="film-info">
+            <div class="film-meta mono">
+              <span class="film-badge">THRILLER</span>
+              <span class="film-badge">33 MIN</span>
+              <span class="film-badge">ROLE — CO-DIRECTOR</span>
+            </div>
+            <h3>AKS</h3>
+            <p class="film-desc">Haunted by childhood trauma and academic failure, a desperate student is saved from suicide by a mysterious caller who begins controlling his future, only to realize the voice on the line is turning into his worst nightmare.</p>
+            <a href="https://youtu.be/NH84mpJpmyU" target="_blank" rel="noopener" class="btn btn-solid film-btn hoverable">▶ WATCH ON YOUTUBE</a>
+          </div>
+          <div class="film-trailer">
+            <iframe src="https://www.youtube-nocookie.com/embed/TzIpmBJN8eo?rel=0" title="AKS — Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </article>
+
+        <article class="reveal film-card hoverable">
+          <div class="film-poster">
+            <img src="assets/film2-poster.jpg" alt="INIKAAS film poster" />
+          </div>
+          <div class="film-info">
+            <div class="film-meta mono">
+              <span class="film-badge">PSYCHOLOGICAL</span>
+              <span class="film-badge">31 MIN</span>
+              <span class="film-badge">ROLE — POST-PRODUCTION HEAD</span>
+            </div>
+            <h3>INIKAAS</h3>
+            <p class="film-desc">Inikaas is a haunting psychological drama about a girl battling terrifying hallucinations and profound guilt within a clinical setting. Desperate for a second chance at life, she must confront her fractured memories to untangle reality from her mind's illusions.</p>
+            <a href="https://youtu.be/efkpumZZtX4" target="_blank" rel="noopener" class="btn btn-solid film-btn hoverable">▶ WATCH ON YOUTUBE</a>
+          </div>
+          <div class="film-trailer">
+            <iframe src="https://www.youtube-nocookie.com/embed/9QUksfFZxCw?rel=0" title="INIKAAS — Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </article>
+
+        <article class="reveal film-card hoverable">
+          <div class="film-poster">
+            <img src="assets/film3-poster.jpg" alt="BARZAKH film poster" />
+          </div>
+          <div class="film-info">
+            <div class="film-meta mono">
+              <span class="film-badge">DRAMA</span>
+              <span class="film-badge">47 MIN</span>
+              <span class="film-badge">ROLE — CINEMATOGRAPHER</span>
+            </div>
+            <h3>BARZAKH</h3>
+            <p class="film-desc">Barzakh follows a university student whose life spirals out of control after a tragic family loss, pulling him into addiction and fatal conflicts with his peers. As betrayal, jealousy, and hidden motives surface, it untangles into a dark tale of murder and revenge.</p>
+            <a href="https://youtu.be/xBHxugnxv6w" target="_blank" rel="noopener" class="btn btn-solid film-btn hoverable">▶ WATCH ON YOUTUBE</a>
+          </div>
+          <div class="film-trailer">
+            <iframe src="https://www.youtube-nocookie.com/embed/3ZiUIbxHlJY?rel=0" title="BARZAKH — Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== 10 · INTERESTS ========== -->
+    <section id="interests" class="section" data-zone="9" data-num="10">
+      <div class="section-inner wide">
+        <p class="reveal section-num mono">// 010</p>
+        <h2 class="reveal section-title">BEYOND CODE<span class="accent">.</span></h2>
+
+        <!-- Expanding panels: tall slabs that grow when hovered.
+             Each panel carries its own illustrated artwork as a full-bleed image. -->
+        <div class="reveal interests-strip">
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/cricket.svg" alt="Cricket illustration" />
+            <span class="interest-num mono">01</span>
+            <div class="interest-body">
+              <h3>Cricket</h3>
+              <p>Watching since I was ten. This game has handed me more heartbreak than any exam ever did — and I still can't stop watching or playing.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/gaming.svg" alt="Gaming illustration" />
+            <span class="interest-num mono">02</span>
+            <div class="interest-body">
+              <h3>Gaming</h3>
+              <p>The one thing that got me through the COVID lockdown. Boredom still doesn't stand a chance — the controller is never far away.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/video-editing.svg" alt="Video editing illustration" />
+            <span class="interest-num mono">03</span>
+            <div class="interest-body">
+              <h3>Video Editing</h3>
+              <p>The first skill I ever taught myself, back at fifteen. What started as curiosity is now simply part of who I am.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/lego.svg" alt="Lego blocks illustration" />
+            <span class="interest-num mono">04</span>
+            <div class="interest-body">
+              <h3>Lego Blocks</h3>
+              <p>Six-year-old Hassan is alive and well inside me — I just love collecting these bricks, one set at a time.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal interests-strip interests-strip-2">
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/swimming.svg" alt="Swimming illustration" />
+            <span class="interest-num mono">05</span>
+            <div class="interest-body">
+              <h3>Swimming</h3>
+              <p>Jumped in just to escape the heat — somewhere along the way, the water turned into a love of its own.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/rubiks-cube.svg" alt="Rubik's cube illustration" />
+            <span class="interest-num mono">06</span>
+            <div class="interest-body">
+              <h3>Rubik's Cube</h3>
+              <p>A friend brought one to school once and I was hooked — now I'm the nerd solving a 3×3 in under a minute.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/badminton.svg" alt="Badminton illustration" />
+            <span class="interest-num mono">07</span>
+            <div class="interest-body">
+              <h3>Badminton</h3>
+              <p>Played endlessly through school — captained the team, too. These days the real challenge is finding someone to play with.</p>
+            </div>
+          </div>
+          <div class="interest-panel hoverable">
+            <img class="interest-art" src="assets/interests/padel.svg" alt="Padel illustration" />
+            <span class="interest-num mono">08</span>
+            <div class="interest-body">
+              <h3>Padel</h3>
+              <p>The new sport everyone suddenly can't stop talking about — so I figured, why not give it a try?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 11 · CONTACT ========== -->
+    <section id="contact" class="section" data-zone="10" data-num="11">
+      <div class="section-inner contact-inner">
+        <p class="reveal section-num mono">// 011 — FINAL DESTINATION</p>
+        <h2 class="reveal section-title big">LET'S BUILD<br /><span class="gradient-text">SOMETHING TOGETHER</span></h2>
+
+        <!-- comms console: pitch + channels on the left, live uplink terminal on the right -->
+        <div class="contact-console">
+          <div class="contact-left">
+            <p class="reveal lead contact-lead">Currently open to remote jobs, collaborations, and interesting
+              conversations — if you're building something exciting, my inbox is the launchpad.</p>
+
+            <!-- live status chips -->
+            <div class="reveal contact-status mono">
+              <span class="meta-chip meta-chip-live hoverable"><span class="pulse-dot"></span>ACCEPTING NEW MISSIONS</span>
+              <span class="meta-chip hoverable">📍 KARACHI</span>
+              <span class="meta-chip hoverable">⚡ USUALLY REPLIES WITHIN 24H</span>
+            </div>
+
+            <!-- primary CTA: mail + one-click copy -->
+            <div class="reveal contact-email-row">
+              <a href="mailto:hassank8125@gmail.com" class="btn btn-solid btn-big hoverable">hassank8125@gmail.com</a>
+              <button id="copy-email" class="btn btn-ghost copy-btn hoverable mono" type="button">COPY EMAIL</button>
+            </div>
+
+            <!-- comm channels -->
+            <div class="reveal comm-grid">
+          <a class="comm-card hoverable" href="https://github.com/HassanKhalid8" target="_blank" rel="noopener">
+            <span class="comm-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.01 2.79-.01 3.17 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></span>
+            <span class="comm-info">
+              <b>GITHUB</b>
+              <span class="mono">@HassanKhalid8 — projects &amp; code</span>
+            </span>
+            <span class="comm-arrow">↗</span>
+          </a>
+          <a class="comm-card hoverable" href="https://www.linkedin.com/in/hassankhalid8/" target="_blank" rel="noopener">
+            <span class="comm-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 18.34V9.75H5.67v8.59h2.67zM7 8.48a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1zm11.34 9.86v-4.71c0-2.52-1.34-3.69-3.13-3.69-1.44 0-2.09.79-2.45 1.35v-1.54H10.1c.04.75 0 8.59 0 8.59h2.66v-4.8c0-.26.02-.51.1-.7.19-.51.63-1.04 1.37-1.04.96 0 1.35.77 1.35 1.9v4.64h2.76z"/></svg></span>
+            <span class="comm-info">
+              <b>LINKEDIN</b>
+              <span class="mono">/in/hassankhalid8 — career &amp; experience</span>
+            </span>
+            <span class="comm-arrow">↗</span>
+          </a>
+            </div>
+          </div>
+
+          <!-- live uplink terminal: the transmission log types itself in -->
+          <aside class="reveal contact-terminal">
+            <div class="term-bar mono">
+              <span class="term-dot td-r" aria-hidden="true"></span>
+              <span class="term-dot td-y" aria-hidden="true"></span>
+              <span class="term-dot td-g" aria-hidden="true"></span>
+              <span class="term-title">UPLINK-01 · SECURE CHANNEL</span>
+              <span class="term-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="term-body mono" id="term-body" aria-label="Transmission log"></div>
+            <div class="term-foot">
+              <div class="radar radar-mini" aria-hidden="true">
+                <span class="radar-ring rr-1"></span>
+                <span class="radar-ring rr-2"></span>
+                <span class="radar-ring rr-3"></span>
+                <span class="radar-pulse"></span>
+                <span class="radar-sweep"></span>
+                <span class="radar-blip rb-1"></span>
+                <span class="radar-blip rb-2"></span>
+                <span class="radar-blip rb-3"></span>
+              </div>
+              <p class="radar-label mono">SCANNING FOR NEW OPPORTUNITIES<span class="dots"></span></p>
+            </div>
+          </aside>
+        </div>
+
+        <!-- signature outro: the transmission is signed with the big name -->
+        <div class="contact-sign">
+          <span class="reveal sign-eyebrow mono">TRANSMISSION SIGNED BY</span>
+          <h3 class="sign-name" id="sign-name" aria-label="Hassan Khalid">HASSAN KHALID</h3>
+          <span class="reveal sign-role mono">CE UNDERGRAD · GIKI · CLASS OF 2027</span>
+        </div>
+      </div>
+      <footer class="reveal">
+        <span class="mono">© 2026 HASSAN KHALID — Designed in a galaxy far, far away</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Certificate lightbox: click any revealed certificate to inspect it full-size -->
+  <div id="cert-lightbox" class="cert-lightbox" aria-hidden="true">
+    <div class="cert-lightbox-backdrop"></div>
+    <figure class="cert-lightbox-frame">
+      <span class="clb-corner clb-tl" aria-hidden="true"></span>
+      <span class="clb-corner clb-tr" aria-hidden="true"></span>
+      <span class="clb-corner clb-bl" aria-hidden="true"></span>
+      <span class="clb-corner clb-br" aria-hidden="true"></span>
+      <img id="cert-lightbox-img" src="" alt="" />
+      <figcaption class="cert-lightbox-cap mono" id="cert-lightbox-cap"></figcaption>
+      <button id="cert-lightbox-close" class="cert-lightbox-close mono hoverable" type="button">CLOSE ✕</button>
+    </figure>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

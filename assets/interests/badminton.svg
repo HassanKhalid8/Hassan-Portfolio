@@ -1,0 +1,65 @@
+<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="32%" r="85%">
+      <stop offset="0%" stop-color="#123c3a"/>
+      <stop offset="55%" stop-color="#0b2422"/>
+      <stop offset="100%" stop-color="#050f0e"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="head"><ellipse cx="0" cy="0" rx="92" ry="118"/></clipPath>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <g fill="#e0fffb" opacity="0.5">
+    <circle cx="90" cy="110" r="2"/><circle cx="500" cy="80" r="1.8"/><circle cx="520" cy="680" r="2"/>
+    <circle cx="70" cy="640" r="1.7"/><circle cx="320" cy="60" r="2"/>
+  </g>
+  <!-- racket -->
+  <g transform="translate(250,350) rotate(-24)" filter="url(#glow)">
+    <ellipse cx="0" cy="-160" rx="92" ry="118" fill="rgba(20,50,48,0.6)" stroke="#4fe8d2" stroke-width="6"/>
+    <g clip-path="url(#head)" transform="translate(0,-160)" stroke="#9ef5e8" stroke-width="1.6" opacity="0.75">
+      <line x1="-92" y1="-90" x2="92" y2="-90"/><line x1="-92" y1="-60" x2="92" y2="-60"/>
+      <line x1="-92" y1="-30" x2="92" y2="-30"/><line x1="-92" y1="0" x2="92" y2="0"/>
+      <line x1="-92" y1="30" x2="92" y2="30"/><line x1="-92" y1="60" x2="92" y2="60"/>
+      <line x1="-92" y1="90" x2="92" y2="90"/>
+      <line x1="-70" y1="-118" x2="-70" y2="118"/><line x1="-42" y1="-118" x2="-42" y2="118"/>
+      <line x1="-14" y1="-118" x2="-14" y2="118"/><line x1="14" y1="-118" x2="14" y2="118"/>
+      <line x1="42" y1="-118" x2="42" y2="118"/><line x1="70" y1="-118" x2="70" y2="118"/>
+    </g>
+    <path d="M -10 -48 L -8 40 L 8 40 L 10 -48 Z" fill="#123c3a" stroke="#4fe8d2" stroke-width="4"/>
+    <rect x="-13" y="40" width="26" height="120" rx="12" fill="#1d4a47" stroke="#4fe8d2" stroke-width="4"/>
+    <g stroke="#4fe8d2" stroke-width="2.5" opacity="0.7">
+      <line x1="-12" y1="70" x2="12" y2="70"/><line x1="-12" y1="96" x2="12" y2="96"/>
+      <line x1="-12" y1="122" x2="12" y2="122"/>
+    </g>
+  </g>
+  <!-- shuttlecock -->
+  <g transform="translate(430,208) rotate(34)" filter="url(#glow)">
+    <g fill="rgba(255,255,255,0.14)" stroke="#fff8e0" stroke-width="3">
+      <path d="M -8 0 L -46 -96 L -20 -104 L -2 -6 Z"/>
+      <path d="M -2 -4 L -16 -104 L 12 -108 L 4 -4 Z"/>
+      <path d="M 4 -6 L 24 -102 L 48 -92 L 10 0 Z"/>
+    </g>
+    <path d="M -18 -2 A 18 18 0 1 0 18 -2 Z" fill="#ffd166" stroke="#fff1c9" stroke-width="3"/>
+    <path d="M -18 -2 Q 0 10 18 -2" fill="none" stroke="#fff1c9" stroke-width="2"/>
+  </g>
+  <!-- motion trail of shuttle -->
+  <g fill="none" stroke="#4fe8d2" stroke-width="3" stroke-linecap="round" opacity="0.5">
+    <path d="M 508 130 Q 470 160 452 196"/>
+    <path d="M 540 158 Q 500 192 480 232"/>
+  </g>
+  <!-- net at bottom -->
+  <g opacity="0.5">
+    <line x1="40" y1="620" x2="560" y2="620" stroke="#9ef5e8" stroke-width="5"/>
+    <g stroke="#4fe8d2" stroke-width="1.5">
+      <line x1="40" y1="640" x2="560" y2="640"/><line x1="40" y1="660" x2="560" y2="660"/>
+      <line x1="40" y1="680" x2="560" y2="680"/><line x1="40" y1="700" x2="560" y2="700"/>
+      <line x1="80" y1="620" x2="80" y2="710"/><line x1="140" y1="620" x2="140" y2="710"/>
+      <line x1="200" y1="620" x2="200" y2="710"/><line x1="260" y1="620" x2="260" y2="710"/>
+      <line x1="320" y1="620" x2="320" y2="710"/><line x1="380" y1="620" x2="380" y2="710"/>
+      <line x1="440" y1="620" x2="440" y2="710"/><line x1="500" y1="620" x2="500" y2="710"/>
+    </g>
+  </g>
+</svg>

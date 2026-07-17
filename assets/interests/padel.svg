@@ -1,0 +1,63 @@
+<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="32%" r="85%">
+      <stop offset="0%" stop-color="#3d2a12"/>
+      <stop offset="55%" stop-color="#241808"/>
+      <stop offset="100%" stop-color="#100a04"/>
+    </radialGradient>
+    <linearGradient id="paddle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a3a86"/>
+      <stop offset="100%" stop-color="#2a2050"/>
+    </linearGradient>
+    <radialGradient id="pball" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#eaff7a"/>
+      <stop offset="70%" stop-color="#c2e838"/>
+      <stop offset="100%" stop-color="#7fa312"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <g fill="#fff3dc" opacity="0.5">
+    <circle cx="90" cy="110" r="2"/><circle cx="500" cy="80" r="1.8"/><circle cx="520" cy="680" r="2"/>
+    <circle cx="70" cy="640" r="1.7"/><circle cx="320" cy="60" r="2"/>
+  </g>
+  <!-- glass wall hint -->
+  <g opacity="0.35" stroke="#ffb45c" stroke-width="2">
+    <line x1="60" y1="580" x2="540" y2="580"/>
+    <line x1="60" y1="580" x2="60" y2="740"/><line x1="180" y1="580" x2="180" y2="740"/>
+    <line x1="300" y1="580" x2="300" y2="740"/><line x1="420" y1="580" x2="420" y2="740"/>
+    <line x1="540" y1="580" x2="540" y2="740"/>
+    <line x1="60" y1="740" x2="540" y2="740"/>
+  </g>
+  <!-- paddle: rounded diamond face with holes -->
+  <g transform="translate(270,330) rotate(-22)" filter="url(#glow)">
+    <path d="M 0 -190 Q 96 -190 104 -96 Q 110 -20 62 32 Q 30 66 12 92 L -12 92 Q -30 66 -62 32 Q -110 -20 -104 -96 Q -96 -190 0 -190 Z"
+          fill="url(#paddle)" stroke="#ffb45c" stroke-width="5"/>
+    <g fill="#171030" stroke="#ffb45c" stroke-width="1.8" opacity="0.9">
+      <circle cx="-52" cy="-128" r="9"/><circle cx="0" cy="-128" r="9"/><circle cx="52" cy="-128" r="9"/>
+      <circle cx="-72" cy="-82" r="9"/><circle cx="-26" cy="-82" r="9"/><circle cx="26" cy="-82" r="9"/><circle cx="72" cy="-82" r="9"/>
+      <circle cx="-52" cy="-36" r="9"/><circle cx="0" cy="-36" r="9"/><circle cx="52" cy="-36" r="9"/>
+      <circle cx="-30" cy="8" r="9"/><circle cx="30" cy="8" r="9"/>
+      <circle cx="0" cy="48" r="9"/>
+    </g>
+    <rect x="-14" y="92" width="28" height="98" rx="13" fill="#1d1533" stroke="#ffb45c" stroke-width="4"/>
+    <g stroke="#ffb45c" stroke-width="2.5" opacity="0.7">
+      <line x1="-13" y1="118" x2="13" y2="118"/><line x1="-13" y1="142" x2="13" y2="142"/>
+      <line x1="-13" y1="166" x2="13" y2="166"/>
+    </g>
+  </g>
+  <!-- ball -->
+  <g transform="translate(438,196)" filter="url(#glow)">
+    <circle r="40" fill="url(#pball)" stroke="#f4ffc2" stroke-width="2.5"/>
+    <path d="M -40 -8 Q 0 -36 40 -8" fill="none" stroke="#f4ffc2" stroke-width="3.5"/>
+    <path d="M -40 12 Q 0 40 40 12" fill="none" stroke="#f4ffc2" stroke-width="3.5"/>
+  </g>
+  <!-- motion arcs -->
+  <g fill="none" stroke="#ffb45c" stroke-width="3" stroke-linecap="round" opacity="0.5">
+    <path d="M 500 120 Q 468 150 456 180"/>
+    <path d="M 532 148 Q 496 184 482 220"/>
+  </g>
+</svg>

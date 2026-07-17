@@ -1,0 +1,59 @@
+<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="90%">
+      <stop offset="0%" stop-color="#0e3a52"/>
+      <stop offset="55%" stop-color="#082234"/>
+      <stop offset="100%" stop-color="#040f18"/>
+    </radialGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66e0ff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0b5f8a" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <g fill="#d8f6ff" opacity="0.5">
+    <circle cx="90" cy="100" r="2"/><circle cx="500" cy="70" r="1.8"/><circle cx="540" cy="250" r="1.5"/>
+    <circle cx="70" cy="300" r="1.7"/><circle cx="330" cy="60" r="2"/>
+  </g>
+  <!-- swimmer: freestyle stroke -->
+  <g filter="url(#glow)">
+    <!-- reaching arm -->
+    <path d="M 170 356 Q 240 300 306 330" fill="none" stroke="#a3ecff" stroke-width="16" stroke-linecap="round"/>
+    <!-- head -->
+    <circle cx="330" cy="332" r="30" fill="#0e3a52" stroke="#a3ecff" stroke-width="5"/>
+    <path d="M 306 322 Q 330 306 354 322" fill="none" stroke="#66e0ff" stroke-width="4"/>
+    <!-- body -->
+    <path d="M 352 348 Q 430 372 500 356" fill="none" stroke="#a3ecff" stroke-width="18" stroke-linecap="round"/>
+    <!-- raised arm -->
+    <path d="M 392 356 Q 372 292 414 254" fill="none" stroke="#a3ecff" stroke-width="15" stroke-linecap="round"/>
+  </g>
+  <!-- splashes -->
+  <g fill="#bdf2ff" opacity="0.9" filter="url(#glow)">
+    <circle cx="160" cy="330" r="6"/><circle cx="140" cy="352" r="4"/><circle cx="182" cy="312" r="4.5"/>
+    <circle cx="430" cy="238" r="5"/><circle cx="452" cy="220" r="3.5"/>
+  </g>
+  <!-- water surface -->
+  <path d="M 0 400 Q 75 380 150 400 T 300 400 T 450 400 T 600 400 L 600 800 L 0 800 Z" fill="url(#water)"/>
+  <g fill="none" stroke="#66e0ff" stroke-width="4" stroke-linecap="round">
+    <path d="M 0 400 Q 75 380 150 400 T 300 400 T 450 400 T 600 400" opacity="0.9"/>
+    <path d="M 0 470 Q 75 452 150 470 T 300 470 T 450 470 T 600 470" opacity="0.55"/>
+    <path d="M 0 540 Q 75 524 150 540 T 300 540 T 450 540 T 600 540" opacity="0.35"/>
+    <path d="M 0 610 Q 75 596 150 610 T 300 610 T 450 610 T 600 610" opacity="0.22"/>
+    <path d="M 0 680 Q 75 668 150 680 T 300 680 T 450 680 T 600 680" opacity="0.14"/>
+  </g>
+  <!-- lane rope dots -->
+  <g fill="#ffd166" opacity="0.75">
+    <circle cx="60" cy="742" r="7"/><circle cx="140" cy="742" r="7"/><circle cx="220" cy="742" r="7"/>
+    <circle cx="300" cy="742" r="7"/><circle cx="380" cy="742" r="7"/><circle cx="460" cy="742" r="7"/>
+    <circle cx="540" cy="742" r="7"/>
+  </g>
+  <!-- bubbles -->
+  <g fill="none" stroke="#a3ecff" stroke-width="2.5" opacity="0.6">
+    <circle cx="210" cy="500" r="9"/><circle cx="238" cy="540" r="6"/><circle cx="190" cy="560" r="4.5"/>
+    <circle cx="420" cy="520" r="8"/><circle cx="446" cy="562" r="5"/>
+  </g>
+</svg>

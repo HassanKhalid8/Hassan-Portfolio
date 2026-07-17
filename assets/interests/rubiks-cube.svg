@@ -1,0 +1,67 @@
+<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="32%" r="85%">
+      <stop offset="0%" stop-color="#2c2440"/>
+      <stop offset="55%" stop-color="#181327"/>
+      <stop offset="100%" stop-color="#0b0913"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <g fill="#efe9ff" opacity="0.5">
+    <circle cx="90" cy="120" r="2"/><circle cx="510" cy="90" r="1.8"/><circle cx="500" cy="690" r="2"/>
+    <circle cx="80" cy="650" r="1.7"/><circle cx="320" cy="60" r="2"/>
+  </g>
+  <ellipse cx="300" cy="672" rx="190" ry="26" fill="#b590ff" opacity="0.12"/>
+  <!-- rotation arrows -->
+  <g fill="none" stroke="#66e0ff" stroke-width="4" stroke-linecap="round" opacity="0.6">
+    <path d="M 132 232 Q 92 300 122 380"/>
+    <polygon points="112,368 128,394 136,366" fill="#66e0ff" stroke="none"/>
+    <path d="M 468 232 Q 508 300 478 380"/>
+    <polygon points="488,368 472,394 464,366" fill="#66e0ff" stroke="none"/>
+  </g>
+  <g filter="url(#glow)">
+    <!-- cube body shadow lines -->
+    <!-- TOP face -->
+    <g transform="matrix(0.866,0.5,-0.866,0.5,300,196)" stroke="#0b0913" stroke-width="5">
+      <rect x="2" y="2" width="56" height="56" rx="8" fill="#f5f5f0"/>
+      <rect x="62" y="2" width="56" height="56" rx="8" fill="#ffd166"/>
+      <rect x="122" y="2" width="56" height="56" rx="8" fill="#ff5a5f"/>
+      <rect x="2" y="62" width="56" height="56" rx="8" fill="#4585e8"/>
+      <rect x="62" y="62" width="56" height="56" rx="8" fill="#f5f5f0"/>
+      <rect x="122" y="62" width="56" height="56" rx="8" fill="#7dffa8"/>
+      <rect x="2" y="122" width="56" height="56" rx="8" fill="#ff9d3b"/>
+      <rect x="62" y="122" width="56" height="56" rx="8" fill="#ffd166"/>
+      <rect x="122" y="122" width="56" height="56" rx="8" fill="#4585e8"/>
+    </g>
+    <!-- LEFT face -->
+    <g transform="matrix(0.866,0.5,0,1,144.4,286)" stroke="#0b0913" stroke-width="5">
+      <rect x="2" y="2" width="56" height="56" rx="8" fill="#ff5a5f"/>
+      <rect x="62" y="2" width="56" height="56" rx="8" fill="#7dffa8"/>
+      <rect x="122" y="2" width="56" height="56" rx="8" fill="#ffd166"/>
+      <rect x="2" y="62" width="56" height="56" rx="8" fill="#ff9d3b"/>
+      <rect x="62" y="62" width="56" height="56" rx="8" fill="#ff5a5f"/>
+      <rect x="122" y="62" width="56" height="56" rx="8" fill="#f5f5f0"/>
+      <rect x="2" y="122" width="56" height="56" rx="8" fill="#4585e8"/>
+      <rect x="62" y="122" width="56" height="56" rx="8" fill="#7dffa8"/>
+      <rect x="122" y="122" width="56" height="56" rx="8" fill="#ff9d3b"/>
+    </g>
+    <!-- RIGHT face -->
+    <g transform="matrix(0.866,-0.5,0,1,300.2,376)" stroke="#0b0913" stroke-width="5">
+      <rect x="2" y="2" width="56" height="56" rx="8" fill="#7dffa8"/>
+      <rect x="62" y="2" width="56" height="56" rx="8" fill="#4585e8"/>
+      <rect x="122" y="2" width="56" height="56" rx="8" fill="#f5f5f0"/>
+      <rect x="2" y="62" width="56" height="56" rx="8" fill="#ffd166"/>
+      <rect x="62" y="62" width="56" height="56" rx="8" fill="#ff9d3b"/>
+      <rect x="122" y="62" width="56" height="56" rx="8" fill="#ff5a5f"/>
+      <rect x="2" y="122" width="56" height="56" rx="8" fill="#f5f5f0"/>
+      <rect x="62" y="122" width="56" height="56" rx="8" fill="#7dffa8"/>
+      <rect x="122" y="122" width="56" height="56" rx="8" fill="#ffd166"/>
+    </g>
+  </g>
+  <!-- timer digits -->
+  <text x="300" y="640" text-anchor="middle" font-family="monospace" font-size="34" fill="#66e0ff" opacity="0.85" filter="url(#glow)">00:47.3</text>
+</svg>
