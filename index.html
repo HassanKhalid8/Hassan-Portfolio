@@ -127,7 +127,7 @@
             <span class="float-chip fc-4 mono">⚙ COMPUTER ENGINEER</span>
             <span class="float-chip fc-5 mono">✏ UI/UX DESIGNER</span>
             <div class="hero-photo-tag mono">
-              <span>PILOT — H. KHALID</span>
+              <span>HASSAN KHALID</span>
               <span class="status-dot">● ONLINE</span>
             </div>
           </div>
@@ -1027,9 +1027,77 @@
     </figure>
   </div>
 
+  <!-- AI copilot: a second uplink channel, this one talks back.
+       Answers are generated server-side (api/chat.js) from the site's
+       knowledge base only — run `node server.js` locally to test. -->
+  <div id="copilot" class="copilot">
+    <button id="copilot-fab" class="copilot-fab hoverable" type="button" aria-label="Chat with Hassan's AI double" aria-expanded="false">
+      <span class="fab-ping" aria-hidden="true"></span>
+      <span class="fab-ping p2" aria-hidden="true"></span>
+      <span class="fab-orbit" aria-hidden="true"><i></i></span>
+      <span class="fab-core" aria-hidden="true"></span>
+      <span class="fab-tag mono" aria-hidden="true">ASK MY AI</span>
+    </button>
+
+    <section id="copilot-panel" class="copilot-panel" role="dialog" aria-label="Chat with Hassan" aria-hidden="true">
+      <span class="clb-corner clb-tl" aria-hidden="true"></span>
+      <span class="clb-corner clb-tr" aria-hidden="true"></span>
+      <span class="clb-corner clb-bl" aria-hidden="true"></span>
+      <span class="clb-corner clb-br" aria-hidden="true"></span>
+
+      <header class="cw-bar mono">
+        <!-- mac-style traffic lights: red closes, yellow minimizes, green enlarges -->
+        <button class="term-dot cw-dot td-r hoverable" id="copilot-dot-close" type="button" aria-label="Close chat"></button>
+        <button class="term-dot cw-dot td-y hoverable" id="copilot-dot-min" type="button" aria-label="Minimize chat"></button>
+        <button class="term-dot cw-dot td-g hoverable" id="copilot-dot-max" type="button" aria-label="Enlarge chat"></button>
+        <span class="cw-title">UPLINK-02 · HASSAN KHALID</span>
+        <span class="cw-status" id="copilot-status"><i class="cw-led"></i><b>ONLINE</b></span>
+        <!-- voice extras: revealed by js/chat.js only while /api/speak has quota -->
+        <span class="cw-voicetag" id="copilot-voicetag" hidden>HASSAN'S VOICE</span>
+        <button id="copilot-voice" class="cw-voice hoverable" type="button" aria-label="Toggle voice replies" aria-pressed="true" hidden>
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 6 9H2v6h4l5 4z" />
+            <path class="cwv-wave" d="M15.5 8.5a5 5 0 0 1 0 7" />
+            <path class="cwv-wave" d="M18.4 5.6a9 9 0 0 1 0 12.8" />
+            <line class="cwv-slash" x1="4" y1="20" x2="20" y2="4" />
+          </svg>
+        </button>
+      </header>
+
+      <!-- heartbeat trace: flatlines at idle, spikes while the AI thinks -->
+      <div class="cw-scope" aria-hidden="true">
+        <svg viewBox="0 0 300 24" preserveAspectRatio="none">
+          <path class="cw-wave" d="M0 12 H60 l4 -7 l5 14 l4 -7 H140 l4 -9 l5 18 l4 -9 H220 l4 -6 l5 12 l4 -6 H300" />
+        </svg>
+      </div>
+
+      <div id="copilot-log" class="cw-log mono" aria-live="polite"></div>
+
+      <div id="copilot-chips" class="cw-chips mono">
+        <button type="button" class="cw-chip hoverable" data-q="What projects has Hassan built?">PROJECTS?</button>
+        <button type="button" class="cw-chip hoverable" data-q="What are Hassan's main skills?">SKILLS?</button>
+        <button type="button" class="cw-chip hoverable" data-q="What experience does Hassan have?">EXPERIENCE?</button>
+        <button type="button" class="cw-chip hoverable" data-q="How can I contact Hassan?">CONTACT?</button>
+      </div>
+
+      <form id="copilot-form" class="cw-input mono">
+        <span class="cw-prompt" aria-hidden="true">&gt;</span>
+        <input id="copilot-input" type="text" maxlength="500" placeholder="ASK ABOUT HASSAN…" autocomplete="off" aria-label="Your question" />
+        <button class="cw-send hoverable" type="submit" aria-label="Send message">XMIT ⏎</button>
+      </form>
+
+      <footer class="cw-foot mono">
+        <span id="copilot-link">LINK — STANDBY</span>
+        <span id="copilot-ms"></span>
+        <span class="cw-foot-right">ANSWERS FROM THIS SITE ONLY</span>
+      </footer>
+    </section>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/chat.js"></script>
 </body>
 </html>
