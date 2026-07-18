@@ -2060,6 +2060,16 @@ p { color: var(--text-dim); line-height: 1.8; }
 .copilot.voiced .cw-say { display: inline-flex; }
 .cw-say:hover { border-color: var(--glass-border); }
 .cw-say.on { animation: cwLed 0.8s ease-in-out infinite; }
+/* fetching audio — icon dims, a tiny ring spins over it (click again cancels) */
+.cw-say { position: relative; }
+.cw-say.loading svg { opacity: 0.2; }
+.cw-say.loading::after {
+  content: ''; position: absolute; inset: 0; margin: auto;
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1px solid var(--accent); border-top-color: transparent;
+  animation: cwSpin 0.7s linear infinite;
+}
+@keyframes cwSpin { to { transform: rotate(360deg); } }
 .cw-text { white-space: pre-wrap; word-break: break-word; color: var(--text); }
 .cw-text a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
 /* visitor transmissions sit right, tinted with the zone color */
@@ -2133,4 +2143,5 @@ p { color: var(--text-dim); line-height: 1.8; }
   .copilot.open .copilot-panel { animation: none; }
   .cw-wave, .cw-led { animation: none; }
   .cw-msg { animation: none; }
+  .cw-say.loading::after { animation-duration: 1.6s; }
 }

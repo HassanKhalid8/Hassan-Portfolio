@@ -36,6 +36,8 @@
   let voiceProbe = null;                                      // Promise — resolved on first open
   let playing = null;                                         // current Audio element
   let playingKey = null;                                      // text of what's playing
+  let loadingKey = null;                                      // text being fetched right now
+  let speakSeq = 0;                                           // race guard — only the newest request may play
   const audioCache = new Map();                               // reply text → object URL
 
   const SAY_SVG = '<svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>';
@@ -49,8 +51,11 @@
   }
 
   function stopSpeaking() {
-    if (playing) { playing.pause(); playing = null; playingKey = null; }
-    log.querySelectorAll('.cw-say.on').forEach((b) => b.classList.remove('on'));
+    speakSeq++; // invalidates any fetch still in flight — it will see a stale seq and bail
+    if (playing) { playing.pause(); playing = null; }
+    playingKey = null;
+    loadingKey = null;
+    log.querySelectorAll('.cw-say.on, .cw-say.loading').forEach((b) => b.classList.remove('on', 'loading'));
   }
 
   /* Quota depleted (or key removed): the speaker sign simply vanishes. */
@@ -74,6 +79,9 @@
     if (!voiceReady) return;
     if (!opts.force && !voiceOn) return; // header mute only affects auto-speak
     stopSpeaking();
+    const seq = speakSeq; // stopSpeaking just bumped it — this request is now the newest
+    loadingKey = text;
+    if (opts.btn) opts.btn.classList.add('loading');
     try {
       let url = audioCache.get(text);
       if (!url) {
@@ -82,28 +90,39 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text }),
         });
+        if (seq !== speakSeq) return; // superseded or cancelled while downloading
         if (!r.ok) {
           const data = await r.json().catch(() => ({}));
           if (data.voice === false) killVoice(); // out of credits — hide the speakers
           return;
         }
         url = URL.createObjectURL(await r.blob());
-        audioCache.set(text, url);
+        audioCache.set(text, url); // cache even if superseded — replay is then free
       }
+      if (seq !== speakSeq) return;
       if (!opts.force && !voiceOn) return; // muted while the audio was being fetched
-      playing = new Audio(url);
+      loadingKey = null;
+      if (opts.btn) { opts.btn.classList.remove('loading'); opts.btn.classList.add('on'); }
+      const audio = new Audio(url);
+      playing = audio;
       playingKey = text;
-      if (opts.btn) {
-        opts.btn.classList.add('on');
-        playing.addEventListener('ended', () => opts.btn.classList.remove('on'));
-      }
-      playing.play().catch(() => {}); // autoplay blocked — text still shows
+      audio.addEventListener('ended', () => {
+        if (opts.btn) opts.btn.classList.remove('on');
+        if (playing === audio) { playing = null; playingKey = null; } // allow replay
+      });
+      audio.play().catch(() => {}); // autoplay blocked — text still shows
     } catch { /* voice is a garnish — never break the chat over it */ }
+    finally {
+      if (seq === speakSeq && loadingKey === text) { // failed while still current — clear the spinner
+        loadingKey = null;
+        if (opts.btn) opts.btn.classList.remove('loading');
+      }
+    }
   }
 
-  /* per-message speaker: play that reply; click again to stop */
+  /* per-message speaker: play that reply; click again to cancel/stop */
   function speakToggle(text, btn) {
-    if (playingKey === text) { stopSpeaking(); return; }
+    if (playingKey === text || loadingKey === text) { stopSpeaking(); return; }
     speak(text, { force: true, btn });
   }
 
