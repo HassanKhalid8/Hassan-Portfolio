@@ -67,16 +67,21 @@ body {
 #topbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; justify-content: space-between; align-items: center;
+  gap: 16px;
   padding: 24px 40px;
-  mix-blend-mode: difference;
 }
+/* the type blends against whatever scrolls under it; the CV chip does not,
+   so it keeps its true accent colour instead of inverting */
+.logo, .zone-label, #header-nav { mix-blend-mode: difference; }
 .logo {
   font-family: var(--font-mono); font-weight: 700; font-size: 20px;
   color: #fff; text-decoration: none; letter-spacing: 1px;
+  white-space: nowrap;
 }
+.topbar-right { display: flex; align-items: center; gap: 18px; min-width: 0; }
 .zone-label {
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
-  color: #fff; opacity: 0.7;
+  color: #fff; opacity: 0.7; white-space: nowrap;
 }
 
 /* Mission-control nav: centered in the topbar, hidden while the site is
@@ -216,6 +221,12 @@ body {
 @media (hover: none) {
   #cursor, #cursor-ring { display: none; }
   body { cursor: auto; }
+  /* nothing hovers on touch — the flip is bound to tap instead (main.js) */
+  .cert-flip-hint { font-size: 0; }
+  .cert-flip-hint::after {
+    content: 'TAP TO REVEAL ⟲';
+    font-size: 8px; letter-spacing: 2px;
+  }
 }
 
 /* ---------- Sections ---------- */
@@ -408,6 +419,74 @@ p { color: var(--text-dim); line-height: 1.8; }
 .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
 .btn-big { font-size: 16px; padding: 20px 44px; margin: 32px 0; }
+
+/* CV button: same pill language as the other CTAs, tinted with the live zone
+   accent and swept by a scanline on hover so it reads as "retrieve artifact".
+   Used in the hero CTA row and the contact console. */
+.btn-cv {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.btn-cv::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 22%,
+    color-mix(in srgb, var(--accent) 34%, transparent) 50%, transparent 78%);
+  transform: translateX(-130%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.btn-cv > * { position: relative; z-index: 1; }
+.btn-cv svg {
+  width: 15px; height: 15px; flex-shrink: 0;
+  fill: none; stroke: var(--accent); stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke 0.35s ease;
+}
+.btn-cv .cv-arrow { font-size: 12px; color: var(--accent); font-weight: 400; transition: transform 0.35s ease, color 0.35s ease; }
+.btn-cv:hover {
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px -8px var(--accent);
+}
+.btn-cv:hover::before { transform: translateX(130%); }
+.btn-cv:hover svg { stroke: #fff; }
+.btn-cv:hover .cv-arrow { color: #fff; transform: translate(3px, -3px); }
+/* contact console: sits beside COPY EMAIL, so it matches that button's metrics */
+.cv-inline { font-size: 12px; padding: 16px 26px; }
+
+/* Header CV chip: compact twin of .btn-cv for the top bar */
+.cv-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  text-decoration: none; white-space: nowrap;
+  font-size: 10px; font-weight: 500; letter-spacing: 2px;
+  color: #fff;
+  padding: 8px 15px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.35s ease, border-color 0.35s ease,
+              box-shadow 0.35s ease, transform 0.35s ease;
+}
+.cv-chip svg {
+  width: 13px; height: 13px; flex-shrink: 0;
+  fill: none; stroke: var(--accent); stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke 0.35s ease;
+}
+.cv-chip:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 22px -4px var(--accent);
+  transform: translateY(-2px);
+}
+.cv-chip:hover svg { stroke: #fff; }
 
 .scroll-hint {
   position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
@@ -693,7 +772,8 @@ p { color: var(--text-dim); line-height: 1.8; }
 
 .lab-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  /* min() keeps the track from outgrowing the column on narrow phones */
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 22px;
 }
 .lab-card {
@@ -802,7 +882,7 @@ p { color: var(--text-dim); line-height: 1.8; }
 .cert-flip-hint { margin-top: 12px; font-size: 8px; letter-spacing: 2px; color: var(--text-dim); opacity: 0.7; }
 /* narrow: drop the 3+2 shape and wrap into comfortable columns */
 @media (max-width: 1350px) {
-  .certs-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .certs-grid { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
   .cert-card, .cert-card:nth-child(4) { grid-column: auto; }
 }
 .cert-back img { width: 100%; height: 100%; object-fit: cover; }
@@ -1693,6 +1773,159 @@ p { color: var(--text-dim); line-height: 1.8; }
 }
 @media (max-width: 520px) {
   .socials { flex-direction: column; gap: 16px; }
+}
+
+/* ============================================================
+   RESPONSIVE — tablet & phone
+   Two fixed rails float over the page (social on the left, section
+   dots on the right), so every breakpoint below either reserves real
+   room for them or retires them. The rest is fixed-size furniture —
+   consoles, timelines, posters — being let out of its desktop shape.
+   ============================================================ */
+
+/* the hero photo's orbit rings are wider than the photo and used to push a
+   sliver of horizontal scroll; clip it without making a scroll container */
+html, body { overflow-x: clip; }
+
+/* ---------- Laptop & tablet: rails stay, content moves out from under them.
+     5vw stops clearing the 66px-wide social rail below ~1520px, so the gutters
+     get a floor. max() means nothing ever gets *tighter* than the base 5vw. --- */
+@media (max-width: 1520px) {
+  .section { padding-left: max(5vw, 88px); padding-right: max(5vw, 58px); }
+  #contact footer { left: max(5vw, 88px); right: max(5vw, 58px); }
+}
+
+/* ---------- Interests: once the strip stacks, the caption sits mid-slab
+     instead of at its foot, so a bottom-up scrim no longer covers it ---------- */
+@media (max-width: 1000px) {
+  .interest-panel::after {
+    background: linear-gradient(to top,
+      rgba(5, 3, 12, 0.9) 0%, rgba(5, 3, 12, 0.66) 48%, rgba(5, 3, 12, 0.52) 100%);
+  }
+  .interest-art { opacity: 0.7; }
+  .interest-panel:hover .interest-art { opacity: 0.85; }
+}
+
+/* ---------- Skill bay: the console footer can't stay pinned once the
+     panel starts wrapping, or it slides under the last modules ---------- */
+@media (max-width: 900px) {
+  .skillbay-panel { padding: 24px 20px; }
+  .skillbay-foot {
+    position: static; margin-top: 20px;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .skillbay-foot > span:first-child,
+  .skillbay-foot .caret { display: none; }
+  .sb-rescatter { margin-left: 0; }
+  /* mobile browser chrome eats a slice of 100vh — svh always fits */
+  .section { min-height: 100svh; }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 760px) {
+  /* the social rail costs 11% of a phone's width; both of its links live in
+     the contact console anyway, so it stands down and the dots slim to a
+     thin ladder (their hover labels never fire on touch) */
+  #social-rail { display: none; }
+  #dots-nav { right: 7px; gap: 14px; }
+  .dot { width: 8px; height: 8px; }
+  .dot::before { display: none; }
+
+  .section { padding: 92px 20px; padding-right: 36px; }
+  .section-title { margin-bottom: 34px; }
+  .section-inner, .section-inner.wide { max-width: 100%; }
+
+  /* top bar: logo · zone · CV all on one line */
+  #topbar { padding: 16px 18px; gap: 10px; }
+  .logo { font-size: 15px; }
+  .topbar-right { gap: 10px; }
+  .zone-label { font-size: 8px; letter-spacing: 1.5px; }
+  .cv-chip { padding: 7px 12px; font-size: 9px; gap: 5px; letter-spacing: 1.5px; }
+  .cv-chip svg { width: 11px; height: 11px; }
+
+  /* hero */
+  .hero-photo { width: min(230px, 60vw); margin-bottom: 28px; }
+  .eyebrow { font-size: 11px; letter-spacing: 3px; margin-bottom: 18px; }
+  .hero-tagline { font-size: 1rem; margin: 22px 0 20px; }
+  .hero-meta { gap: 9px; margin-bottom: 28px; }
+  .meta-chip { padding: 9px 14px; font-size: 9px; letter-spacing: 1.5px; }
+  .hero-cta { gap: 12px; }
+  .hero-cta .btn { padding: 14px 24px; font-size: 12px; }
+  /* the hero grows past one screen on a phone, so the pinned hint would land
+     on top of the stat line — let it fall into the flow instead */
+  .scroll-hint {
+    position: static; transform: none;
+    margin: 40px auto 0; font-size: 9px;
+  }
+  .scroll-line { height: 36px; }
+  /* keep the pre-flight readout clear of the dot ladder */
+  .boot-wrap { width: min(430px, 76vw); }
+
+  /* about */
+  .about-now { padding: 22px 20px; }
+  .about-now-lines { font-size: 10px; }
+  .stat-value { font-size: 2.1rem; }
+  .stat-label { font-size: 10px; letter-spacing: 2px; }
+  .about-process { margin-top: 44px; }
+  .process-card { padding: 22px 20px; }
+
+  /* skills */
+  .skill-node { font-size: 0.92rem; }
+  .marquee-track span { font-size: 0.95rem; margin: 0 18px; }
+  .skillbay { margin-bottom: 44px; }
+
+  /* projects */
+  .project-info { padding: 30px 22px; }
+  .project-thumb { padding: 22px 18px; min-height: 0; }
+
+  /* lab */
+  .lab-card { padding: 24px 20px; }
+  .lab-scope { margin-bottom: 24px; }
+  .lab-bench { gap: 8px 16px; font-size: 9px; }
+
+  /* films: poster stays whole — it's the point of the section */
+  .film-info { padding: 28px 22px; }
+  .film-trailer { padding: 20px 22px 26px; }
+  .film-card { margin-bottom: 32px; }
+
+  /* interests */
+  .interest-panel { min-height: 180px; padding: 20px 18px; }
+
+  /* contact: the CTA row stacks, so give each button the full width */
+  .contact-console { gap: 30px; }
+  .contact-email-row { gap: 10px; }
+  .contact-email-row .btn { width: 100%; justify-content: center; text-align: center; }
+  .btn-big { font-size: 14px; padding: 18px 20px; margin: 24px 0 0; }
+  .cv-inline { padding: 16px 20px; }
+  .comm-card { padding: 16px 18px; gap: 12px; }
+  .comm-icon { width: 36px; height: 36px; }
+  .term-body { min-height: 200px; padding: 18px 16px; font-size: 10.5px; line-height: 2; }
+  .radar-mini { width: 96px; height: 96px; }
+  .contact-sign { margin-top: 48px; }
+  .sign-name { font-size: clamp(1.5rem, 8.6vw, 2.6rem); letter-spacing: 2px; }
+  .sign-role { font-size: 9px; letter-spacing: 2px; }
+  /* unpin the footer so it can't land under the copilot button */
+  #contact footer {
+    position: static; left: auto; right: auto;
+    margin-top: 48px; padding-bottom: 86px;
+  }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 520px) {
+  /* the zone readout is the first thing to go when the bar gets tight */
+  .zone-label { display: none; }
+  .section-title.big { font-size: clamp(2rem, 9.5vw, 2.8rem); }
+  .lead { font-size: 1.1rem; }
+  .hero-stats { margin-top: 32px; }
+  /* certificate cards: at one-per-row the landscape shape is too short for the
+     blurb, so the card gets taller and the clamps get an extra line each */
+  .cert-card { aspect-ratio: 1.06 / 1; }
+  .cert-front { padding: 20px 18px; }
+  .cert-front h3 { -webkit-line-clamp: 3; }
+  .cert-desc { -webkit-line-clamp: 5; }
+  .film-badge { font-size: 8px; }
+  .project-tags span { font-size: 9px; }
 }
 
 /* ============================================================

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+  Hassan Khalid — résumé. Print source for ../CV.pdf.
+
+  Imported from the Claude Design project "CV editing request"
+  (Hassan Khalid Resume.dc.html). The original relied on the design
+  runtime (support.js + the <doc-page> custom element); this is the
+  same document with doc-page's print behaviour written out as plain
+  CSS, so it renders identically with no JS and no dependencies.
+
+  The page box is A4 — that is what the document was designed against.
+  The previous CV.pdf was printed onto US Letter, which is 1.23in
+  shorter and wider than A4, so the sheet never filled and every page
+  carried a band of blank space at the foot.
+
+  Regenerate the PDF after editing:
+    node assets/cv/build-pdf.js
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Hassan Khalid — Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---- page geometry -------------------------------------------------
+     margin:0 leaves Chrome no margin box to stamp its date/URL/page-count
+     header into; the visual inset lives on the sheet's own padding, so
+     print and screen show the same document.                            */
+  @page { size: 210mm 297mm; margin: 0; }
+
+  body { margin: 0; }
+  a { color: #0b3d63; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* zero-specificity typographic defaults, so anything authored wins */
+  :where(h1, h2, h3, h4, h5, h6) { text-wrap: balance; }
+  :where(p, li, blockquote, figcaption) { text-wrap: pretty; }
+
+  /* ---- screen: one sheet on a desk, the way the design tool shows it -- */
+  .desk {
+    min-height: 100vh;
+    padding: 48px 24px;
+    box-sizing: border-box;
+    background: #ece8dd;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .sheet {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 0.45in;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 14px rgba(20, 20, 19, 0.12);
+  }
+
+  /* ---- fill the sheet -------------------------------------------------
+     At its authored size the document runs 910px against A4's 1036px of
+     printable height, so it stops ~1.4in short and the foot of the page
+     reads as dead space. --fit scales every length in the document by one
+     factor (zoom re-lays-out at width/factor then scales, so the design's
+     proportions and line width are preserved exactly — it is the same
+     document, set larger). 1.08 lands at ~98% of the printable height.
+
+     If you add or remove content, retune: raise --fit until the sheet is
+     just under 1036px tall, then re-run build-pdf.js and confirm the PDF
+     is still a single page. Above ~1.09 it spills onto a second page.     */
+  .fit { zoom: 1.08; }
+
+  /* ---- print ---------------------------------------------------------
+     The document is built to land on a single A4 sheet, so the inset can
+     sit on the sheet's padding directly. Break hygiene is kept anyway so
+     an edit that pushes it to two pages still splits cleanly.            */
+  @media print {
+    html, body {
+      margin: 0 !important; padding: 0 !important;
+      background: none !important; height: auto !important;
+      overflow: visible !important;
+    }
+    .desk { min-height: 0; padding: 0; background: none; }
+    .sheet { width: auto; margin: 0; border-radius: 0; box-shadow: none; }
+    h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+    section, li { break-inside: avoid; }
+    p, li { orphans: 3; widows: 3; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="desk">
+<div class="sheet">
+<div class="fit">
+
+  <header style="text-align:center;padding-bottom:7px;border-bottom:1.5px solid #111;">
+    <h1 style="margin:0;font-family:'Public Sans',sans-serif;font-size:26px;font-weight:700;letter-spacing:0.6px;color:#111;line-height:1.1;">Muhammad Hassan Khalid</h1>
+    <p style="margin:5px 0 0;font-family:'Public Sans',sans-serif;font-size:10.5px;color:#333;line-height:1.5;">
+      <a href="mailto:hassank8125@gmail.com">hassank8125@gmail.com</a> &nbsp;|&nbsp; +92 318 006 5385 &nbsp;|&nbsp; <a href="https://github.com/HassanKhalid8">GitHub</a> &nbsp;|&nbsp; <a href="https://linkedin.com/in/hassankhalid8">LinkedIn</a> &nbsp;|&nbsp; Karachi, Pakistan
+    </p>
+  </header>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 4px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Professional Summary</h2>
+    <p style="margin:0;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.45;color:#222;">Computer Engineering student at GIKI who thrives at the intersection of technical precision and digital execution. Specializes in full-stack web and mobile application development, bridging hardware and software to build production-ready digital systems end to end. Follows a scope-prototype-refine-ship workflow, drawing on a filmmaker's instinct to cut what doesn't earn its place, and enjoys taking impactful, user-facing products from an idea to a working build.</p>
+  </section>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 5px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Education</h2>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Ghulam Ishaq Khan Institute (GIKI)</b>, Topi — BS Computer Engineering</span>
+        <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">2023 – 2027</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Punjab College</b>, Kot Addu — FSc Pre-Engineering (100% Scholarship)</span>
+        <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">2021 – 2023</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 5px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Technical Skills</h2>
+    <div style="display:grid;grid-template-columns:112px 1fr;row-gap:2px;column-gap:10px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+      <div style="font-weight:700;color:#111;">Languages</div><div>JavaScript (ES6+), Python, C, C++, MATLAB, Assembly (8051, RISC-V)</div>
+      <div style="font-weight:700;color:#111;">Web / Full-Stack</div><div>React.js, HTML5, CSS3, Flask, Firebase, REST APIs, Vercel</div>
+      <div style="font-weight:700;color:#111;">Embedded / HW</div><div>ESP32, Arduino, 8051, Verilog (HDL), signal processing (DSP)</div>
+      <div style="font-weight:700;color:#111;">Tools</div><div>Git, Proteus, Keil uVision, MATLAB/Simulink, DaVinci Resolve, Premiere Pro</div>
+    </div>
+  </section>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 6px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Professional Experience</h2>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Decode Labs</b> — Generative AI Intern</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">July 2026 – Present</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Building generative-AI features — prompt engineering, LLM integration, and shipping AI capabilities into production applications.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>ENUMS</b> — Full-Stack Developer Intern</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">Jul 2026 – Present</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Building full-stack web features end to end — React front-ends wired to Flask/REST back-end services.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>FlyRank AI</b> — Machine Learning Intern</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">Jul 2026 – Present</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Developing and evaluating machine-learning models and data pipelines that power the product's AI features.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>NCL, NED University</b> — AI Intern</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">June 2024 - Aug 2024</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Gained hands-on experience in AI and embedded-systems research, contributing to microcontroller-based prototypes alongside the lab team.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Media Club, GIKI</b> — Vice President</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10.5px;font-weight:600;color:#444;white-space:nowrap;">Sep 2023 – Present</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Lead internal operations, team coordination, and end-to-end production for the club's short films and campus-scale media campaigns.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 6px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Projects</h2>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>NOVA-16 Enhanced ISA Emulator</b>&nbsp;</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10px;font-weight:600;color:#666;white-space:nowrap;">Python · Flask · Gemini API</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Browser-based emulator for a custom 16-bit RISC architecture with a pipeline visualizer, cache simulator, hazard detection, and an AI-powered assembly code generator.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>JobConnect</b> — <b>Full-Stack Recruitment Platform</b>&nbsp;</span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10px;font-weight:600;color:#666;white-space:nowrap;">React · Firebase</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Serverless recruitment platform connecting job seekers and employers through real-time data management and automated communication workflows.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Smart IoT Kitchen System</b></span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10px;font-weight:600;color:#666;white-space:nowrap;">ESP32 · Sensors</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Designed an ESP32 system monitoring gas, temperature, and motion to trigger safety alerts and automate appliances via a control interface.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Event Management System</b> — <b>Web-Based Booking Platform</b></span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10px;font-weight:600;color:#666;white-space:nowrap;">JavaScript · Flask</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Built an event management platform with live seat selection, ticket checkout, and booking confirmation, handling concurrent reservations through server-side validation.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+          <span style="font-family:'Public Sans',sans-serif;font-size:11.5px;color:#111;"><b>Adaptive Radar Signal Processing</b></span>
+          <span style="font-family:'Public Sans',sans-serif;font-size:10px;font-weight:600;color:#666;white-space:nowrap;">MATLAB · DSP</span>
+        </div>
+        <ul style="margin:2px 0 0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;">
+          <li>Implemented adaptive filtering algorithms in MATLAB to suppress clutter and noise from radar returns, improving target detection in low signal-to-noise conditions.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1px;">
+        <p style="margin:0;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.4;color:#222;"><b>Also:</b> Exoplanet Signal Detection (MATLAB DSP), Instant Messaging (Python TCP sockets, multithreading), PCA engine from scratch (Python), Online Store Management &amp; Virtual Pet Adoption (C++, DSA/OOP), Metal Detector (Electronics).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section style="margin-top:5px;">
+    <h2 style="margin:0 0 5px;padding-bottom:2px;border-bottom:0.75px solid #999;font-family:'Public Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#111;">Certifications &amp; Achievements</h2>
+    <ul style="margin:0;padding-left:15px;font-family:'Public Sans',sans-serif;font-size:11px;line-height:1.45;color:#222;">
+      <li>AI Fluency: Framework &amp; Foundations · Claude 101 · Claude Code 101 — Anthropic (2026)</li>
+      <li>IC Design Summer School — DreamBig (2025)</li>
+      <li>100% Academic Scholarship — Punjab College &nbsp;·&nbsp; Ranked 2nd in Matriculation — The City School</li>
+      <li>Created 3 short films (AKS, INIKAAS, BARZAKH) &nbsp;·&nbsp; Badminton Team Captain (school level)</li>
+    </ul>
+  </section>
+
+</div>
+</div>
+</div>
+</body>
+</html>
