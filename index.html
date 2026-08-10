@@ -1111,10 +1111,63 @@
     </section>
   </div>
 
+  <!-- Optical nav: a webcam reads one hand and steers the scroll.
+       Palm up = up, palm down = down, fist = stop. The model runs in
+       the browser (js/gesture.js) — no frame ever leaves the device. -->
+  <div id="gesture" class="gesture" data-g="none">
+    <button id="gesture-fab" class="gesture-fab hoverable" type="button" aria-label="Scroll with hand gestures" aria-expanded="false">
+      <span class="gn-sweep" aria-hidden="true"></span>
+      <svg class="gn-hand" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10" />
+        <path d="M12.2 10V3.8a1.6 1.6 0 0 1 3.2 0V10" />
+        <path d="M15.4 10.4V5.6a1.6 1.6 0 0 1 3.2 0V14a6.5 6.5 0 0 1-6.5 6.5h-.8A6.3 6.3 0 0 1 5 14.2l-1.3-2.6a1.55 1.55 0 0 1 2.6-1.7L9 13.4" />
+      </svg>
+      <span class="gn-tag mono" aria-hidden="true">GESTURE NAV</span>
+    </button>
+
+    <section id="gesture-panel" class="gesture-panel" role="dialog" aria-label="Gesture navigation" aria-hidden="true">
+      <span class="clb-corner clb-tl" aria-hidden="true"></span>
+      <span class="clb-corner clb-tr" aria-hidden="true"></span>
+      <span class="clb-corner clb-bl" aria-hidden="true"></span>
+      <span class="clb-corner clb-br" aria-hidden="true"></span>
+
+      <header class="gn-bar mono">
+        <i class="gn-led" aria-hidden="true"></i>
+        <span class="gn-title">OPTICAL NAV</span>
+        <button id="gesture-close" class="gn-close hoverable" type="button" aria-label="Close camera">✕</button>
+      </header>
+
+      <div class="gn-stage">
+        <video id="gesture-video" playsinline muted autoplay disablepictureinpicture></video>
+        <canvas id="gesture-canvas" width="480" height="360" aria-hidden="true"></canvas>
+        <span class="gn-grid" aria-hidden="true"></span>
+        <span class="gn-beam" aria-hidden="true"></span>
+        <span class="gn-arrow up" aria-hidden="true">▲</span>
+        <span class="gn-arrow down" aria-hidden="true">▼</span>
+        <p id="gesture-hint" class="gn-hint mono" role="status">CAMERA OFFLINE</p>
+      </div>
+
+      <div class="gn-readout mono">
+        <span id="gesture-state" class="gn-state" data-g="none" aria-live="polite">STANDBY</span>
+        <span id="gesture-rate" class="gn-rate">—</span>
+        <span class="gn-meter" aria-hidden="true"><i id="gesture-meter"></i></span>
+      </div>
+
+      <ul id="gesture-legend" class="gn-legend mono">
+        <li data-g="up"><b>▲</b><span>PALM UP</span><em>SCROLL UP</em></li>
+        <li data-g="down"><b>▼</b><span>PALM DOWN</span><em>SCROLL DOWN</em></li>
+        <li data-g="stop"><b>■</b><span>FIST</span><em>STOP</em></li>
+      </ul>
+
+      <footer class="gn-foot mono">TILT FURTHER = FASTER · FEED NEVER LEAVES THIS DEVICE</footer>
+    </section>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/chat.js"></script>
+  <script src="js/gesture.js"></script>
 </body>
 </html>

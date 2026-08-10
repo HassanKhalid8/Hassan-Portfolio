@@ -2378,3 +2378,205 @@ html, body { overflow-x: clip; }
   .cw-msg { animation: none; }
   .cw-say.loading::after { animation-duration: 1.6s; }
 }
+
+/* ============================================================
+   OPTICAL NAV — gesture scrolling
+   Bottom-left counterpart to the copilot beacon: same glass + CRT
+   language, mirrored. Recolors with the live zone --accent.
+   ============================================================ */
+.gesture { position: fixed; left: 28px; bottom: 28px; z-index: 80; }
+
+/* --- launcher --- */
+.gesture-fab {
+  position: relative; width: 58px; height: 58px;
+  border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: rgba(13, 10, 26, 0.82);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  display: grid; place-items: center; overflow: hidden;
+  color: var(--text-dim);
+  box-shadow: 0 0 34px -14px var(--accent);
+  transition: border-color 0.3s, box-shadow 0.3s, color 0.3s, transform 0.35s;
+}
+.gesture-fab:hover { border-color: var(--accent); color: var(--text); box-shadow: 0 0 48px -8px var(--accent); }
+.gn-hand { position: relative; z-index: 1; transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3); }
+.gesture-fab:hover .gn-hand { transform: translateY(-2px) rotate(-8deg); }
+/* a scanner line crawling up the palm — the whole idea in one motion */
+.gn-sweep {
+  position: absolute; left: 0; right: 0; height: 34%;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 45%, transparent), transparent);
+  animation: gnSweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes gnSweep {
+  0% { top: 100%; opacity: 0; }
+  15%, 85% { opacity: 1; }
+  100% { top: -34%; opacity: 0; }
+}
+.gn-tag {
+  position: absolute; left: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+  border: 1px solid var(--glass-border); background: rgba(13, 10, 26, 0.85);
+  font-size: 9px; letter-spacing: 3px; color: var(--text-dim);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s, color 0.25s, border-color 0.25s;
+}
+.gesture-fab:hover .gn-tag {
+  opacity: 1; transform: translateY(-50%) translateX(0);
+  color: var(--text); border-color: var(--accent);
+}
+.gesture.open .gesture-fab { transform: scale(0.86); }
+.gesture.open .gn-tag { display: none; }
+/* live: the beacon breathes with the accent so it reads as "watching" */
+.gesture.live .gesture-fab { border-color: var(--accent); color: var(--text); animation: gnAlive 2.2s ease-in-out infinite; }
+@keyframes gnAlive {
+  0%, 100% { box-shadow: 0 0 34px -14px var(--accent); }
+  50% { box-shadow: 0 0 56px -6px var(--accent); }
+}
+
+/* --- console --- */
+.gesture-panel {
+  position: absolute; left: 0; bottom: 74px;
+  width: 268px; display: none; flex-direction: column;
+  border: 1px solid var(--glass-border); border-radius: 16px;
+  background: rgba(9, 6, 20, 0.93);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 0 70px -28px var(--accent);
+  transform-origin: bottom left;
+}
+.gesture.open .gesture-panel { display: flex; animation: crtOn 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+
+.gn-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 14px; border-bottom: 1px solid var(--glass-border);
+  font-size: 9px; letter-spacing: 2px; color: var(--text-dim);
+}
+.gn-led {
+  width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto;
+  background: var(--text-dim); box-shadow: none;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.gesture.live .gn-led { background: #ff4d4d; box-shadow: 0 0 9px #ff4d4d; animation: cwLed 1.6s ease-in-out infinite; }
+.gesture.booting .gn-led { background: #febc2e; box-shadow: 0 0 9px #febc2e; animation: cwLed 0.6s ease-in-out infinite; }
+.gn-title { flex: 1; }
+.gn-close {
+  border: none; background: none; padding: 2px 4px; cursor: pointer;
+  font-family: var(--font-mono); font-size: 11px; line-height: 1;
+  color: var(--text-dim); transition: color 0.2s, transform 0.2s;
+}
+.gn-close:hover { color: #ff5f57; transform: scale(1.2); }
+
+/* --- viewfinder --- */
+.gn-stage {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4 / 3; background: #07040f;
+  border-bottom: 1px solid var(--glass-border);
+}
+#gesture-video, #gesture-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+#gesture-video { object-fit: cover; transform: scaleX(-1); opacity: 0; transition: opacity 0.5s; }
+.gesture.live #gesture-video { opacity: 0.82; }
+#gesture-canvas { pointer-events: none; }
+
+/* targeting grid + a scan beam, only while the feed is hot */
+.gn-grid, .gn-beam { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+.gesture.live .gn-grid, .gesture.live .gn-beam { opacity: 1; }
+.gn-grid {
+  background:
+    linear-gradient(color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px) 0 0 / 25% 100%;
+}
+.gn-beam {
+  inset: auto 0 0 0; height: 22%;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 28%, transparent));
+  animation: gnBeam 4s ease-in-out infinite alternate;
+}
+@keyframes gnBeam { 0% { bottom: 0; } 100% { bottom: 78%; } }
+
+/* direction arrows — the matching one lights up while you scroll */
+.gn-arrow {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 22px; line-height: 1;
+  color: var(--accent); opacity: 0; text-shadow: 0 0 18px var(--accent);
+  transition: opacity 0.2s; pointer-events: none;
+}
+.gn-arrow.up { top: 8px; }
+.gn-arrow.down { bottom: 8px; }
+.gesture[data-g='up'] .gn-arrow.up { opacity: 1; animation: gnPulseUp 0.7s ease-in-out infinite; }
+.gesture[data-g='down'] .gn-arrow.down { opacity: 1; animation: gnPulseDown 0.7s ease-in-out infinite; }
+@keyframes gnPulseUp { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -5px); } }
+@keyframes gnPulseDown { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 5px); } }
+
+.gn-hint {
+  position: absolute; inset: auto 12px 12px; z-index: 2;
+  padding: 7px 9px; border-radius: 7px;
+  border: 1px solid var(--glass-border); background: rgba(9, 6, 20, 0.88);
+  font-size: 8px; line-height: 1.5; letter-spacing: 1.4px; color: var(--text-dim);
+}
+.gn-hint[data-kind='err'] { color: #ff8080; border-color: color-mix(in srgb, #ff5f57 45%, transparent); }
+
+/* --- readout --- */
+.gn-readout {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px 13px;
+  font-size: 9px; letter-spacing: 2px;
+}
+.gn-state { color: var(--text-dim); transition: color 0.2s; }
+.gn-state[data-g='up'], .gn-state[data-g='down'] { color: var(--accent); }
+.gn-state[data-g='stop'] { color: #febc2e; }
+.gn-state[data-g='edge'] { color: #ff8080; }
+.gn-rate { margin-left: auto; color: var(--text-dim); font-size: 8px; }
+.gn-meter {
+  position: absolute; left: 14px; right: 14px; bottom: 6px; height: 2px;
+  border-radius: 2px; background: var(--glass); overflow: hidden;
+}
+.gn-meter i {
+  display: block; height: 100%; transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--accent), #fff);
+}
+
+/* --- legend --- */
+.gn-legend {
+  list-style: none; display: grid; gap: 4px;
+  padding: 10px 14px; border-top: 1px solid var(--glass-border);
+}
+.gn-legend li {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 8px; border-radius: 7px;
+  border: 1px solid transparent;
+  font-size: 8px; letter-spacing: 1.6px; color: var(--text-dim);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.gn-legend li b { width: 12px; text-align: center; font-weight: 400; opacity: 0.7; }
+.gn-legend li span { flex: 1; }
+.gn-legend li em { font-style: normal; opacity: 0.55; }
+.gn-legend li.on {
+  color: var(--text); background: var(--glass);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.gn-legend li.on b { color: var(--accent); opacity: 1; }
+
+.gn-foot {
+  padding: 9px 14px 11px; border-top: 1px solid var(--glass-border);
+  font-size: 7.5px; line-height: 1.6; letter-spacing: 1.6px; color: var(--text-dim);
+}
+
+/* Gesture scrolling needs a free hand and a steady camera — neither of
+   which a phone held in one hand can offer. */
+@media (max-width: 720px) { .gesture { display: none; } }
+
+/* Short windows: shrink the viewfinder rather than drop the legend —
+   the legend is the only place the gestures are ever explained. */
+@media (max-height: 640px) {
+  .gn-stage { aspect-ratio: auto; height: 124px; }
+  .gn-foot { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-sweep, .gn-beam, .gn-arrow { animation: none !important; }
+  .gn-sweep { display: none; }
+  .gesture.live .gesture-fab { animation: none; }
+  .gesture.open .gesture-panel { animation: none; }
+}
