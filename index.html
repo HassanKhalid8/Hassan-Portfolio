@@ -121,13 +121,8 @@
             <div class="photo-orb"></div>
             <div class="photo-ring"></div>
             <div class="photo-ring photo-ring-2"></div>
-            <img src="assets/profile-cutout.png" alt="Hassan Khalid" />
+            <img src="assets/profile-2026.png" alt="Hassan Khalid" />
             <div class="holo-scan" aria-hidden="true"></div>
-            <!-- scanner lens: cartoon version revealed only under the cursor -->
-            <div class="scan-lens" aria-hidden="true">
-              <img src="assets/cartoon2.png" alt="" />
-            </div>
-            <div class="scan-ring" aria-hidden="true"></div>
             <span class="float-chip fc-1 mono">&lt;/&gt; FULL-STACK</span>
             <span class="float-chip fc-2 mono">🎬 FILMMAKER</span>
             <span class="float-chip fc-3 mono">🤖 AI / ML</span>
@@ -355,66 +350,202 @@
         <p class="reveal section-num mono">// 004</p>
         <h2 class="reveal section-title">WEB PROJECTS<span class="accent">.</span></h2>
 
-        <!-- Each project = one large full-width panel with a browser-window
-             mockup thumbnail. To use a real screenshot: replace the .thumb-ph
-             div inside .browser-body with <img src="assets/project1.jpg" alt="NOVA-16 screenshot" /> -->
-        <article class="reveal project-card project-xl hoverable">
-          <div class="project-thumb">
-            <div class="browser-mock">
-              <div class="browser-bar">
-                <span class="browser-dot dot-red"></span>
-                <span class="browser-dot dot-yellow"></span>
-                <span class="browser-dot dot-green"></span>
-                <span class="browser-url mono">nova-16-enhanced-isa-emulator.vercel.app</span>
-              </div>
-              <div class="browser-body">
-                <img src="assets/project1.jpg" alt="NOVA-16 Enhanced ISA Emulator interface" />
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <span class="project-num mono">PROJECT — 01</span>
-            <h3>NOVA-16 Enhanced ISA Emulator</h3>
-            <p>A browser-based emulator for a custom 16-bit RISC architecture featuring
-              a pipeline visualizer, cache simulator, hazard detection, and an
-              AI-powered assembly code generator.</p>
-            <div class="project-tags mono"><span>Python</span><span>Flask</span><span>JavaScript</span><span>HTML/CSS</span><span>Gemini API</span></div>
-            <div class="project-links mono">
-              <a href="https://github.com/HassanKhalid8/NOVA-16_Enhanced-ISA-Emulator" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
-              <a href="https://nova-16-enhanced-isa-emulator.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
-            </div>
-          </div>
-        </article>
+        <!-- THE DECK — a fixed-height stage with a manifest rail beside it.
+             Only one project is on screen at a time, so this section costs the
+             same vertical space with 2 projects or 20.
 
-        <article class="reveal project-card project-xl flip hoverable">
-          <div class="project-thumb">
-            <div class="browser-mock">
-              <div class="browser-bar">
-                <span class="browser-dot dot-red"></span>
-                <span class="browser-dot dot-yellow"></span>
-                <span class="browser-dot dot-green"></span>
-                <span class="browser-url mono">job-connect-delta-woad.vercel.app</span>
-              </div>
-              <div class="browser-body">
-                <img src="assets/project2.jpg" alt="JobConnect interface" />
-              </div>
-            </div>
-          </div>
-          <div class="project-info">
-            <span class="project-num mono">PROJECT — 02</span>
-            <h3>JobConnect</h3>
-            <p>A modern, serverless full-stack recruitment platform built with React
-              and Firebase that streamlines hiring by connecting job seekers and
-              employers through real-time data management and automated
-              communication workflows.</p>
-            <div class="project-tags mono"><span>React.js</span><span>CSS</span><span>Firebase</span><span>Vercel</span><span>EmailJS</span></div>
-            <div class="project-links mono">
-              <a href="https://github.com/HassanKhalid8/Job-Connect" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
-              <a href="https://job-connect-delta-woad.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
-            </div>
-          </div>
-        </article>
+             To add a project: paste one more <article class="deck-panel"> below.
+             The rail buttons, the "PROJECT — NN" numbers and the 01/NN counter
+             are all generated from these panels at runtime (js/main.js), so the
+             markup below is the only place a project is ever written down.
 
+             data-brand="<background> <wordmark>" are the project's own real UI
+             colours, lifted from its stylesheet — the rail paints each entry as
+             a little wordmark tile in the app's own palette instead of a
+             shrunken screenshot, which stays legible at 54px where a screenshot
+             does not. data-brand-font="mono" for wordmarks that are set in a
+             monospace face in the product itself. -->
+        <div class="reveal deck">
+
+          <aside class="deck-rail">
+            <div class="deck-rail-head mono">
+              <span>MANIFEST</span>
+              <span class="deck-count"></span>
+            </div>
+            <div class="deck-tabs" role="tablist" aria-label="Web projects">
+              <span class="deck-marker" aria-hidden="true"></span>
+            </div>
+            <p class="deck-hint mono">↑ ↓ TO CYCLE</p>
+          </aside>
+
+          <div class="deck-stage">
+            <div class="deck-bar mono">
+              <span class="deck-index"></span>
+              <span class="deck-nav">
+                <button type="button" class="deck-arrow hoverable" data-dir="-1" aria-label="Previous project">←</button>
+                <button type="button" class="deck-arrow hoverable" data-dir="1" aria-label="Next project">→</button>
+              </span>
+            </div>
+
+            <div class="deck-frames">
+
+              <article class="deck-panel is-active" data-name="NOVA-16 Emulator" role="tabpanel"
+                       data-brand="#f8f4ee #2e2117" data-brand-font="mono" data-wordmark="NOVA-16">
+                <div class="deck-shot">
+                  <div class="browser-mock">
+                    <div class="browser-bar">
+                      <span class="browser-dot dot-red"></span>
+                      <span class="browser-dot dot-yellow"></span>
+                      <span class="browser-dot dot-green"></span>
+                      <span class="browser-url mono">nova-16-enhanced-isa-emulator.vercel.app</span>
+                    </div>
+                    <div class="browser-body">
+                      <img src="assets/project1.jpg" alt="NOVA-16 Enhanced ISA Emulator interface" />
+                    </div>
+                  </div>
+                </div>
+                <div class="project-info deck-info">
+                  <span class="project-num mono deck-num"></span>
+                  <h3>NOVA-16 Enhanced ISA Emulator</h3>
+                  <p>A browser-based emulator for a custom 16-bit RISC architecture featuring
+                    a pipeline visualizer, cache simulator, hazard detection, and an
+                    AI-powered assembly code generator.</p>
+                  <div class="project-tags mono"><span>Python</span><span>Flask</span><span>JavaScript</span><span>HTML/CSS</span><span>Gemini API</span></div>
+                  <div class="project-links mono">
+                    <a href="https://github.com/HassanKhalid8/NOVA-16_Enhanced-ISA-Emulator" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+                    <a href="https://nova-16-enhanced-isa-emulator.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="deck-panel" data-name="JobConnect" role="tabpanel"
+                       data-brand="#2c5cea #ffffff">
+                <div class="deck-shot">
+                  <div class="browser-mock">
+                    <div class="browser-bar">
+                      <span class="browser-dot dot-red"></span>
+                      <span class="browser-dot dot-yellow"></span>
+                      <span class="browser-dot dot-green"></span>
+                      <span class="browser-url mono">job-connect-delta-woad.vercel.app</span>
+                    </div>
+                    <div class="browser-body">
+                      <img src="assets/project2.jpg" alt="JobConnect interface" />
+                    </div>
+                  </div>
+                </div>
+                <div class="project-info deck-info">
+                  <span class="project-num mono deck-num"></span>
+                  <h3>JobConnect</h3>
+                  <p>A modern, serverless full-stack recruitment platform built with React
+                    and Firebase that streamlines hiring by connecting job seekers and
+                    employers through real-time data management and automated
+                    communication workflows.</p>
+                  <div class="project-tags mono"><span>React.js</span><span>CSS</span><span>Firebase</span><span>Vercel</span><span>EmailJS</span></div>
+                  <div class="project-links mono">
+                    <a href="https://github.com/HassanKhalid8/Job-Connect" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+                    <a href="https://job-connect-delta-woad.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="deck-panel" data-name="Mnemo" role="tabpanel"
+                       data-brand="#0b0d12 #7c6cff">
+                <div class="deck-shot">
+                  <div class="browser-mock">
+                    <div class="browser-bar">
+                      <span class="browser-dot dot-red"></span>
+                      <span class="browser-dot dot-yellow"></span>
+                      <span class="browser-dot dot-green"></span>
+                      <span class="browser-url mono">mnemo-bot.vercel.app</span>
+                    </div>
+                    <div class="browser-body">
+                      <img src="assets/project3.jpg" alt="Mnemo chatbot interface" />
+                    </div>
+                  </div>
+                </div>
+                <div class="project-info deck-info">
+                  <span class="project-num mono deck-num"></span>
+                  <h3>Mnemo</h3>
+                  <p>A chatbot that actually remembers. Every LLM API is stateless, so
+                    Mnemo builds five layers on top of that: an in-memory transcript, a
+                    Postgres mirror that survives restarts, background fact extraction,
+                    summarisation of long threads, and an account that carries all of it
+                    across devices. You can chat before signing up — the conversation is
+                    adopted into your account when you do.</p>
+                  <div class="project-tags mono"><span>Flask</span><span>Gemini API</span><span>Supabase</span><span>PostgreSQL</span><span>SSE</span><span>Vercel</span></div>
+                  <div class="project-links mono">
+                    <a href="https://github.com/HassanKhalid8/Mnemo-bot" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+                    <a href="https://mnemo-bot.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="deck-panel" data-name="Tone Forge" role="tabpanel"
+                       data-brand="#f4f6f9 #0f9e9b">
+                <div class="deck-shot">
+                  <div class="browser-mock">
+                    <div class="browser-bar">
+                      <span class="browser-dot dot-red"></span>
+                      <span class="browser-dot dot-yellow"></span>
+                      <span class="browser-dot dot-green"></span>
+                      <span class="browser-url mono">github.com/HassanKhalid8/Tone-Forge</span>
+                    </div>
+                    <div class="browser-body">
+                      <img src="assets/project4.jpg" alt="Tone Forge copywriting interface" />
+                    </div>
+                  </div>
+                </div>
+                <div class="project-info deck-info">
+                  <span class="project-num mono deck-num"></span>
+                  <h3>Tone Forge</h3>
+                  <p>Product facts go in, platform-ready marketing copy comes out. The
+                    user never writes a prompt — the app compiles the instruction, fans
+                    the request out across seven channels in parallel, then re-audits
+                    every result against that platform's character ceiling and hashtag
+                    rules and rewrites whatever breaks them.</p>
+                  <div class="project-tags mono"><span>Python</span><span>asyncio</span><span>Pydantic</span><span>Gemini API</span><span>Flask</span></div>
+                  <div class="project-links mono">
+                    <a href="https://github.com/HassanKhalid8/Tone-Forge" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="deck-panel" data-name="Emulsion" role="tabpanel"
+                       data-brand="#f5f7f9 #0e7490">
+                <div class="deck-shot">
+                  <div class="browser-mock">
+                    <div class="browser-bar">
+                      <span class="browser-dot dot-red"></span>
+                      <span class="browser-dot dot-yellow"></span>
+                      <span class="browser-dot dot-green"></span>
+                      <span class="browser-url mono">emulsion-psi.vercel.app</span>
+                    </div>
+                    <div class="browser-body">
+                      <img src="assets/project5.jpg" alt="Emulsion image generation studio interface" />
+                    </div>
+                  </div>
+                </div>
+                <div class="project-info deck-info">
+                  <span class="project-num mono deck-num"></span>
+                  <h3>Emulsion</h3>
+                  <p>A text-to-image studio built around everything that isn't the model.
+                    Seven stages stay visible as a batch runs: exact pixel payloads,
+                    jittered retries that tell a dead connection apart from a slow GPU,
+                    moderation gates on both ends, chunked streaming to disk, a forced
+                    pixel decode that catches the truncated files a header check calls
+                    valid, and automated quality scoring. Runs keyless on Pollinations.</p>
+                  <div class="project-tags mono"><span>Python</span><span>Flask</span><span>Pillow</span><span>Pollinations</span><span>Vercel</span></div>
+                  <div class="project-links mono">
+                    <a href="https://github.com/HassanKhalid8/Week3_GenerativeAI" target="_blank" rel="noopener" class="hoverable">VIEW CODE ↗</a>
+                    <a href="https://emulsion-psi.vercel.app" target="_blank" rel="noopener" class="hoverable">LIVE DEMO ↗</a>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 

@@ -394,16 +394,192 @@ if (labGrid) {
   });
 }
 
-/* Project cards: 3D tilt following the mouse */
-document.querySelectorAll('.project-card').forEach((card) => {
-  card.addEventListener('mousemove', (e) => {
-    const r = card.getBoundingClientRect();
-    const rx = ((e.clientY - r.top) / r.height - 0.5) * -4;
-    const ry = ((e.clientX - r.left) / r.width - 0.5) * 4;
-    card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+/* ================= WEB PROJECTS — THE DECK =================
+   One stage, one project on it, and a manifest rail that scrolls. The rail
+   buttons, the "PROJECT — NN" labels and the NN/NN counter are all built
+   from whatever .deck-panel articles are in the markup, so adding a project
+   is a copy/paste in index.html and this section never gets any taller.
+   (This block sits above the .hoverable cursor wiring on purpose — the tabs
+   have to exist by the time that query runs, or they'd miss the cursor.) */
+const deck = document.querySelector('.deck');
+if (deck) {
+  const panels = [...deck.querySelectorAll('.deck-panel')];
+  const tabsWrap = deck.querySelector('.deck-tabs');
+  const marker = deck.querySelector('.deck-marker');
+  const indexOut = deck.querySelector('.deck-index');
+  const countOut = deck.querySelector('.deck-count');
+  /* local copy — the shared prefersReducedMotion const is declared further
+     down the file, and this runs at parse time */
+  const calmDeck = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = (n) => String(n).padStart(2, '0');
+  const tabs = [];
+  const tiles = [];
+  let active = 0;
+  let hoverTimer = 0;
+
+  /* A wordmark tile is 44px of usable width; "Mnemo" and "JobConnect" cannot
+     share a font size. Step each mark down until it stops overflowing so a
+     new project never lands in the rail pre-clipped. */
+  const fitMarks = () => {
+    tiles.forEach((tile) => {
+      const mark = tile.firstChild;
+      let size = tile.classList.contains('is-mono') ? 8 : 9.5;
+      mark.style.fontSize = `${size}px`;
+      while (mark.scrollWidth > mark.clientWidth && size > 5.5) {
+        size -= 0.25;
+        mark.style.fontSize = `${size}px`;
+      }
+    });
+  };
+
+  panels.forEach((panel, i) => {
+    const heading = panel.querySelector('h3');
+    const name = panel.dataset.name || (heading ? heading.textContent : `Project ${i + 1}`);
+    /* the rail's second line is just the first few tags, so it stays in sync
+       with the panel's stack list on its own */
+    const stack = panel.dataset.stack || [...panel.querySelectorAll('.project-tags span')]
+      .slice(0, 3).map((s) => s.textContent).join(' · ');
+    const numEl = panel.querySelector('.deck-num');
+    if (numEl) numEl.textContent = `PROJECT — ${pad(i + 1)}`;
+
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'deck-tab hoverable';
+    tab.setAttribute('role', 'tab');
+    tab.innerHTML =
+      '<span class="deck-tab-tile"><b></b></span>' +
+      '<span class="deck-tab-text">' +
+      '<span class="deck-tab-name"></span>' +
+      '<span class="deck-tab-stack mono"></span>' +
+      '</span>';
+
+    /* Each entry wears its project's own colours: a wordmark tile painted in
+       the app's real background + brand pair. A 54px screenshot is mush — a
+       wordmark at that size is still a logo, and the row stays readable. */
+    const tile = tab.querySelector('.deck-tab-tile');
+    const [brandBg, brandFg] = (panel.dataset.brand || '').split(/\s+/);
+    if (brandBg) tile.style.setProperty('--brand-bg', brandBg);
+    if (brandFg) tile.style.setProperty('--brand-fg', brandFg);
+    if (panel.dataset.brandFont === 'mono') tile.classList.add('is-mono');
+    /* the mark is the short form — "JobConnect" fits a tile, "NOVA-16 Enhanced
+       ISA Emulator" does not */
+    tile.firstChild.textContent = panel.dataset.wordmark || name;
+    tiles.push(tile);
+
+    tab.querySelector('.deck-tab-name').textContent = name;
+    tab.querySelector('.deck-tab-stack').textContent = `${pad(i + 1)} — ${stack.toUpperCase()}`;
+    tab.addEventListener('click', () => show(i));
+    tab.addEventListener('focus', () => show(i));
+    /* hovering swaps the stage too, but only once the pointer settles — a
+       sweep across the rail on the way to the stage shouldn't fire every
+       project in turn */
+    tab.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => show(i), 90);
+    });
+    tab.addEventListener('mouseleave', () => clearTimeout(hoverTimer));
+    tabsWrap.appendChild(tab);
+    tabs.push(tab);
   });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-});
+
+  if (countOut) countOut.textContent = `${pad(panels.length)} ENTRIES`;
+
+  /* the highlight is one element sliding to the active row's box */
+  function moveMarker() {
+    const tab = tabs[active];
+    if (!marker || !tab) return;
+    marker.style.top = `${tab.offsetTop}px`;
+    marker.style.height = `${tab.offsetHeight}px`;
+  }
+
+  function show(i, instant) {
+    if (i === active && !instant) return;
+    const from = panels[active];
+    const to = panels[i];
+    active = i;
+
+    tabs.forEach((t, n) => {
+      t.classList.toggle('is-active', n === i);
+      t.setAttribute('aria-selected', String(n === i));
+    });
+    panels.forEach((p, n) => p.classList.toggle('is-active', n === i));
+    if (indexOut) indexOut.textContent = `${pad(i + 1)} / ${pad(panels.length)}`;
+    moveMarker();
+
+    if (instant || calmDeck) {
+      gsap.killTweensOf(panels);
+      gsap.set(panels, { autoAlpha: 0, x: 0 });
+      gsap.set(to, { autoAlpha: 1 });
+      return;
+    }
+    /* overwrite:true matters here — flick along the rail and the same panel
+       can be told to fade out and back in within one tween's lifetime */
+    if (from && from !== to) {
+      gsap.to(from, { autoAlpha: 0, duration: 0.28, ease: 'power2.in', overwrite: true });
+    }
+    gsap.fromTo(to,
+      { autoAlpha: 0, x: 26 },
+      { autoAlpha: 1, x: 0, duration: 0.5, ease: 'power3.out', overwrite: true });
+    /* the write-up's lines cascade in a beat behind the swap */
+    gsap.fromTo(to.querySelectorAll('.deck-info > *'),
+      { opacity: 0, y: 14 },
+      {
+        opacity: 1, y: 0, duration: 0.45, stagger: 0.06, delay: 0.1,
+        ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform',
+      });
+  }
+
+  const step = (dir) => {
+    const next = (active + dir + panels.length) % panels.length;
+    show(next);
+    tabs[next].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  };
+  deck.querySelectorAll('.deck-arrow').forEach((btn) => {
+    btn.addEventListener('click', () => step(+btn.dataset.dir));
+  });
+  /* arrows walk the manifest whichever way it's laid out (column on desktop,
+     row once it folds) */
+  tabsWrap.addEventListener('keydown', (e) => {
+    const dir = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    if (!dir) return;
+    e.preventDefault();
+    step(dir);
+    tabs[active].focus();
+  });
+
+  /* The mock drifts against the cursor and its glare follows — deliberately
+     translate + scale only. Rotating it on X/Y foreshortens one edge, and a
+     browser window rendered as a trapezoid stops looking like a screenshot. */
+  const frames = deck.querySelector('.deck-frames');
+  if (frames && !calmDeck) {
+    frames.addEventListener('mousemove', (e) => {
+      const mock = panels[active].querySelector('.browser-mock');
+      if (!mock) return;
+      const f = frames.getBoundingClientRect();
+      const dx = (e.clientX - f.left) / f.width - 0.5;
+      const dy = (e.clientY - f.top) / f.height - 0.5;
+      mock.style.transform = `translate3d(${dx * -12}px, ${dy * -9}px, 0) scale(1.022)`;
+      /* the glare is placed in the mock's own box, not the stage's */
+      const m = mock.getBoundingClientRect();
+      mock.style.setProperty('--gx', `${e.clientX - m.left}px`);
+      mock.style.setProperty('--gy', `${e.clientY - m.top}px`);
+    });
+    frames.addEventListener('mouseleave', () => {
+      panels.forEach((p) => {
+        const mock = p.querySelector('.browser-mock');
+        if (mock) mock.style.transform = '';
+      });
+    });
+  }
+
+  const relayout = () => { fitMarks(); moveMarker(); };
+  show(0, true);
+  relayout();
+  addEventListener('resize', relayout);
+  addEventListener('load', relayout);
+  /* the marks are measured in a webfont that may not have arrived yet */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+}
 
 /* Hero photo: tilt on hover, vanish into the void as you scroll past it */
 const heroPhotoFrame = document.querySelector('.hero-photo-frame');
@@ -413,9 +589,6 @@ if (heroPhotoFrame) {
     const rx = ((e.clientY - r.top) / r.height - 0.5) * -10;
     const ry = ((e.clientX - r.left) / r.width - 0.5) * 10;
     heroPhotoFrame.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    /* drive the scanner lens + ring from the same cursor position */
-    heroPhotoFrame.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-    heroPhotoFrame.style.setProperty('--my', (e.clientY - r.top) + 'px');
   });
   heroPhotoFrame.addEventListener('mouseleave', () => { heroPhotoFrame.style.transform = ''; });
 }

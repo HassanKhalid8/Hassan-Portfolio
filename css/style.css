@@ -283,7 +283,7 @@ p { color: var(--text-dim); line-height: 1.8; }
 /* ---------- Hero photo ---------- */
 .hero-photo {
   position: static;
-  width: 250px;
+  width: 292px;
   margin: 0 auto 36px;
   z-index: 5;
   opacity: 0;
@@ -328,8 +328,12 @@ p { color: var(--text-dim); line-height: 1.8; }
   position: relative; z-index: 2;
   display: block; width: 100%; height: auto;
   filter: drop-shadow(0 0 26px color-mix(in srgb, var(--accent) 50%, transparent)) contrast(1.04);
-  mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
+  /* Feather only the very bottom edge. The old cutout tapered to a waist, so
+     fading its last 20% read as "dissolving into the void"; the current
+     portrait is widest and most solid down there, and fading it that early
+     made the background sculpture look like it was passing through him. */
+  mask-image: linear-gradient(to bottom, #000 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 94%, transparent 100%);
 }
 
 .hero-photo-tag {
@@ -1321,51 +1325,266 @@ p { color: var(--text-dim); line-height: 1.8; }
 .marquee-track span:nth-child(even) { color: var(--accent); font-size: 0.8rem; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
-/* ---------- Projects: large full-width panels with thumbnails ---------- */
-.project-xl {
+/* ---------- Projects: "the deck" — a manifest rail + one fixed-height stage.
+     Every project after the first is free vertical space: the rail scrolls,
+     the stage never grows. ---------- */
+.deck {
+  --deck-h: clamp(470px, 62vh, 600px);
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  min-height: 400px;
-  margin-bottom: 48px;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* --- left: the manifest --- */
+.deck-rail {
+  height: var(--deck-h);
+  display: flex; flex-direction: column;
+  padding: 16px 12px;
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
+  border-radius: 20px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.deck-rail-head {
+  flex-shrink: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 8px 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 9px; letter-spacing: 3px; color: var(--text-dim);
+}
+.deck-count { color: var(--accent); }
+
+.deck-tabs {
+  position: relative;
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow-y: auto; overflow-x: hidden;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 50%, transparent) transparent;
+}
+.deck-tabs::-webkit-scrollbar { width: 4px; }
+.deck-tabs::-webkit-scrollbar-track { background: transparent; }
+.deck-tabs::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 50%, transparent);
+  border-radius: 999px;
+}
+
+/* the highlight is one element that slides between rows, not a class swap —
+   it reads as a selector travelling down the list */
+.deck-marker {
+  position: absolute; left: 0; right: 4px;
+  top: 0; height: 0;
+  border-radius: 13px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  box-shadow: 0 0 30px -12px var(--accent), inset 0 0 22px -14px var(--accent);
+  pointer-events: none;
+  transition: top 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.deck-marker::before {
+  content: '';
+  position: absolute; left: -1px; top: 22%; bottom: 22%;
+  width: 2px; border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.deck-tab {
+  position: relative; z-index: 1; flex-shrink: 0;
+  display: flex; align-items: center; gap: 11px;
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid transparent; border-radius: 13px;
+  background: none; color: inherit;
+  font-family: inherit; text-align: left;
+  cursor: none;
+  transition: transform 0.35s ease;
+}
+.deck-tab:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+.deck-tab:hover { transform: translateX(3px); }
+/* Wordmark tile: the project's own UI background with its own brand colour
+   on top. Dimmed until the row is live, so the rail reads as one list rather
+   than five competing logos. The mark auto-shrinks to fit via a font-size
+   that scales with the tile, and clamps to one line. */
+.deck-tab-tile {
+  --brand-bg: #12101c;
+  --brand-fg: #ffffff;
+  flex-shrink: 0;
+  width: 54px; height: 34px;
+  display: grid; place-items: center;
+  padding: 0 5px;
+  border-radius: 7px; overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: var(--brand-bg);
+  opacity: 0.5; filter: saturate(0.55);
+  transition: opacity 0.4s ease, filter 0.4s ease,
+              border-color 0.4s ease, transform 0.4s ease;
+}
+.deck-tab-tile b {
+  display: block; max-width: 100%;
+  font-size: 9.5px; font-weight: 700; letter-spacing: -0.2px;
+  line-height: 1;
+  color: var(--brand-fg);
+  white-space: nowrap; overflow: hidden; text-overflow: clip;
+}
+.deck-tab-tile.is-mono b {
+  font-family: var(--font-mono);
+  font-size: 8px; font-weight: 500; letter-spacing: 0.4px;
+}
+.deck-tab:hover .deck-tab-tile,
+.deck-tab.is-active .deck-tab-tile {
+  opacity: 1; filter: none;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.deck-tab.is-active .deck-tab-tile { transform: scale(1.04); }
+.deck-tab-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.deck-tab-name,
+.deck-tab-stack { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.deck-tab-name {
+  font-size: 0.92rem; font-weight: 500;
+  color: var(--text-dim);
+  transition: color 0.35s ease;
+}
+.deck-tab:hover .deck-tab-name,
+.deck-tab.is-active .deck-tab-name { color: #fff; }
+.deck-tab-stack {
+  font-size: 8.5px; letter-spacing: 1.6px;
+  color: var(--text-dim); opacity: 0.7;
+  transition: color 0.35s ease, opacity 0.35s ease;
+}
+.deck-tab.is-active .deck-tab-stack { color: var(--accent); opacity: 1; }
+
+.deck-hint {
+  flex-shrink: 0;
+  margin-top: 10px; padding-top: 11px;
+  border-top: 1px solid var(--glass-border);
+  font-size: 8px; letter-spacing: 2.5px; color: var(--text-dim);
+  text-align: center; opacity: 0.7;
+}
+
+/* --- right: the stage --- */
+.deck-stage {
+  position: relative;
+  height: var(--deck-h);
+  display: grid; grid-template-rows: auto 1fr;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
   overflow: hidden;
   background: var(--glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  will-change: transform;
 }
-.project-xl:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 60px -18px var(--accent);
+.deck-stage:hover {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow: 0 0 70px -22px var(--accent);
 }
-.project-xl.flip { grid-template-columns: 1fr 1.15fr; }
-.project-xl.flip .project-thumb { order: 2; }
-.project-xl.flip .project-info { order: 1; }
 
-.project-thumb {
-  position: relative; overflow: hidden; min-height: 280px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 28px;
+.deck-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 10px; letter-spacing: 3px; color: var(--text-dim);
+}
+.deck-index { color: var(--accent); }
+.deck-nav { display: flex; gap: 7px; }
+.deck-arrow {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border: 1px solid var(--glass-border); border-radius: 8px;
+  background: transparent; color: var(--text-dim);
+  font-family: inherit; font-size: 12px; line-height: 1;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+.deck-arrow:hover {
+  color: #fff;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: 0 0 18px -6px var(--accent);
+}
+.deck-arrow:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+.deck-frames { position: relative; min-height: 0; }
+.deck-panel {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: 1.35fr 1fr;
+  opacity: 0; visibility: hidden;
+}
+.deck-panel.is-active { opacity: 1; visibility: visible; }
+
+.deck-shot {
+  position: relative; overflow: hidden;
+  display: grid; place-items: center;
+  padding: 26px; min-width: 0;
   background:
     radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%),
     rgba(0, 0, 0, 0.25);
 }
+.deck-shot .browser-mock { width: 100%; max-height: 100%; }
+.deck-shot .browser-body { min-height: 0; }
+
+/* the info column reuses .project-info's typography; the double class keeps
+   these overrides ahead of it no matter which block is declared first */
+.project-info.deck-info {
+  padding: 30px 34px;
+  border-left: 1px solid var(--glass-border);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 40%, transparent) transparent;
+}
+.deck-info::-webkit-scrollbar { width: 4px; }
+.deck-info::-webkit-scrollbar-track { background: transparent; }
+.deck-info::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 999px;
+}
+.project-info.deck-info h3 { font-size: clamp(1.35rem, 2vw, 1.95rem); margin-bottom: 14px; }
+.project-info.deck-info > p { font-size: 0.95rem; margin-bottom: 22px; }
+.deck-info .project-num { margin-bottom: 14px; }
+.deck-info .project-tags { gap: 8px; margin-bottom: 22px; }
+.deck-info .project-tags span { font-size: 9px; padding: 5px 12px; }
+.deck-info .project-links { gap: 22px; }
 
 /* Browser-window mockup: keeps the screenshot from clashing with the site's
-   glowing/glass look — it reads as "a website", not a raw cropped image. */
+   glowing/glass look — it reads as "a website", not a raw cropped image.
+   No rotateX/rotateY here on purpose: any perspective rotation foreshortens
+   one edge and the window stops reading as a window. It stays a true
+   rectangle and moves by drift + glare instead (driven from main.js). */
 .browser-mock {
+  position: relative;
   width: 100%; height: auto;
   display: flex; flex-direction: column;
   border-radius: 14px; overflow: hidden;
   background: rgba(10, 7, 20, 0.85);
   border: 1px solid var(--glass-border);
   box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.6), 0 0 50px -20px var(--accent);
-  transform: perspective(1200px) rotateX(2deg) rotateY(-3deg);
-  transition: transform 0.6s ease, border-color 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s ease, border-color 0.4s ease;
+  will-change: transform;
 }
-.project-xl:hover .browser-mock { transform: perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1.02); border-color: color-mix(in srgb, var(--accent) 50%, var(--glass-border)); }
+/* a soft light that tracks the cursor across the glass — the motion people
+   read as "3D" without a single degree of rotation */
+.browser-mock::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; pointer-events: none;
+  background: radial-gradient(circle 240px at var(--gx, 50%) var(--gy, -40%),
+    rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04) 45%, transparent 72%);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.deck-stage:hover .browser-mock {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--glass-border));
+  box-shadow: 0 36px 70px -26px rgba(0, 0, 0, 0.7), 0 0 64px -20px var(--accent);
+}
+.deck-stage:hover .deck-panel.is-active .browser-mock::after { opacity: 1; }
 .browser-bar {
   display: flex; align-items: center; gap: 8px;
   padding: 11px 14px;
@@ -1387,16 +1606,6 @@ p { color: var(--text-dim); line-height: 1.8; }
 /* the mock sizes itself to the screenshot — full image, nothing cropped */
 .browser-body { position: relative; overflow: hidden; }
 .browser-body img { width: 100%; height: auto; display: block; }
-
-.thumb-ph {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-  background:
-    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
-    linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.35));
-}
-.thumb-glyph { font-size: 3.6rem; color: var(--accent); text-shadow: 0 0 40px var(--accent); }
-.thumb-ph .mono { font-size: 10px; letter-spacing: 4px; color: var(--text-dim); }
 
 .project-info {
   display: flex; flex-direction: column; justify-content: center;
@@ -1684,7 +1893,11 @@ p { color: var(--text-dim); line-height: 1.8; }
     gap: 56px;
   }
   .hero-text { flex: 1; min-width: 0; }
-  .hero-photo { width: clamp(300px, 27vw, 460px); flex-shrink: 0; margin: 0 3vw 0 0; }
+  /* the current portrait is a tighter crop than the old one (0.88 aspect vs
+     0.75), so it needs more width to read at the same size on the page.
+     The 300px floor is load-bearing: any wider and the text column narrows
+     enough to break "HASSAN" across two lines around 960px. */
+  .hero-photo { width: clamp(300px, 31vw, 530px); flex-shrink: 0; margin: 0 3vw 0 0; }
 }
 
 /* ---------- Responsive ---------- */
@@ -1692,12 +1905,55 @@ p { color: var(--text-dim); line-height: 1.8; }
   .film-card { grid-template-columns: 300px 1fr; }
   .film-trailer { grid-column: 1 / -1; padding-top: 0; }
 }
+/* ---------- Laptop widths: the rail gives 50px back to the stage and the
+     write-up tightens, so the info column doesn't start scrolling ---------- */
+@media (max-width: 1400px) {
+  .deck { grid-template-columns: 268px 1fr; gap: 16px; }
+  .project-info.deck-info { padding: 24px 26px; }
+  .project-info.deck-info h3 { font-size: 1.3rem; margin-bottom: 12px; }
+  .project-info.deck-info > p { font-size: 0.88rem; margin-bottom: 18px; }
+  .deck-info .project-tags { margin-bottom: 18px; }
+  .deck-shot { padding: 20px; }
+}
+
+/* ---------- The deck folds: the manifest lies down into a horizontal strip
+     above the stage, and the stage stacks screenshot over write-up ---------- */
+@media (max-width: 1100px) {
+  .deck {
+    --deck-h: clamp(520px, 68vh, 660px);
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .deck-rail { height: auto; padding: 12px; }
+  .deck-hint { display: none; }
+  .deck-tabs {
+    flex-direction: row; gap: 8px;
+    overflow-x: auto; overflow-y: hidden;
+    padding: 0 0 6px;
+  }
+  .deck-tabs::-webkit-scrollbar { height: 4px; width: auto; }
+  /* a sliding marker can't track a row that scrolls sideways — the active
+     tab wears the highlight itself here */
+  .deck-marker { display: none; }
+  .deck-tab {
+    flex: 0 0 auto; width: 200px;
+    border-color: var(--glass-border);
+  }
+  .deck-tab:hover { transform: none; }
+  .deck-tab.is-active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+  .deck-panel { grid-template-columns: 1fr; grid-template-rows: minmax(0, 0.9fr) minmax(0, 1fr); }
+  .project-info.deck-info {
+    border-left: none;
+    border-top: 1px solid var(--glass-border);
+    padding: 24px 26px;
+  }
+  .deck-shot { padding: 20px; }
+}
+
 @media (max-width: 1000px) {
-  .project-xl, .project-xl.flip { grid-template-columns: 1fr; min-height: 0; }
-  .project-xl.flip .project-thumb { order: 0; }
-  .project-xl.flip .project-info { order: 1; }
-  .project-thumb { min-height: 240px; }
-  .project-info { padding: 36px 32px; }
   .interests-strip { flex-direction: column; height: auto; }
   .interests-strip-2 { margin-top: 16px; }
   .interest-panel { min-height: 210px; padding: 22px 20px; }
@@ -1844,7 +2100,7 @@ html, body { overflow-x: clip; }
   .cv-chip svg { width: 11px; height: 11px; }
 
   /* hero */
-  .hero-photo { width: min(230px, 60vw); margin-bottom: 28px; }
+  .hero-photo { width: min(268px, 70vw); margin-bottom: 28px; }
   .eyebrow { font-size: 11px; letter-spacing: 3px; margin-bottom: 18px; }
   .hero-tagline { font-size: 1rem; margin: 22px 0 20px; }
   .hero-meta { gap: 9px; margin-bottom: 28px; }
@@ -1874,9 +2130,26 @@ html, body { overflow-x: clip; }
   .marquee-track span { font-size: 0.95rem; margin: 0 18px; }
   .skillbay { margin-bottom: 44px; }
 
-  /* projects */
-  .project-info { padding: 30px 22px; }
-  .project-thumb { padding: 22px 18px; min-height: 0; }
+  /* projects: a phone has no room for a scrollbar inside a card, so the stage
+     drops its fixed height and sizes to the one project on it. The section
+     still costs the same whether there are two projects or twenty — only ever
+     one panel is in the flow. */
+  .deck-tab { width: 172px; padding: 8px 9px; gap: 9px; }
+  .deck-tab-tile { width: 46px; height: 29px; }
+  .deck-tab-tile b { font-size: 8.5px; }
+  .deck-tab-tile.is-mono b { font-size: 7px; }
+  .deck-tab-name { font-size: 0.84rem; }
+  .deck-bar { padding: 9px 12px; font-size: 9px; letter-spacing: 2px; }
+  .deck-stage { height: auto; }
+  .deck-frames { position: static; }
+  .deck-panel {
+    position: relative; inset: auto;
+    display: none;
+    grid-template-columns: 1fr; grid-template-rows: auto auto;
+  }
+  .deck-panel.is-active { display: grid; }
+  .project-info.deck-info { padding: 22px 20px; overflow: visible; }
+  .deck-shot { padding: 14px; }
 
   /* lab */
   .lab-card { padding: 24px 20px; }
@@ -2039,46 +2312,6 @@ html, body { overflow-x: clip; }
   92% { top: 104%; opacity: 0.45; }
   100% { top: 104%; opacity: 0; }
 }
-
-/* ---------- Scanner lens: cursor reveals a hologram version of the portrait ---------- */
-.scan-lens {
-  position: absolute; inset: 0; z-index: 3; pointer-events: none;
-  overflow: hidden;
-  opacity: 0; transition: opacity 0.25s ease;
-  -webkit-mask-image: radial-gradient(circle 85px at var(--mx, -200px) var(--my, -200px), #000 0 62%, transparent 100%);
-  mask-image: radial-gradient(circle 85px at var(--mx, -200px) var(--my, -200px), #000 0 62%, transparent 100%);
-}
-.hero-photo-frame:hover .scan-lens { opacity: 1; }
-/* cartoon2.png shares the photo's 3:4 frame but its figure is ~4.7%
-   larger and sits higher/left — values below map its alpha silhouette
-   onto profile-cutout.png's (measured, not eyeballed) */
-.scan-lens img {
-  display: block; width: 95.3%; height: auto;
-  margin-left: 1.5%; margin-top: 6.6%;
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
-  mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
-}
-/* scanlines clipped to the body silhouette via the cutout's alpha */
-.scan-lens::after {
-  content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent 0 3px,
-    color-mix(in srgb, var(--accent) 16%, transparent) 3px 4px);
-  -webkit-mask-image: url('../assets/profile-cutout.png');
-  mask-image: url('../assets/profile-cutout.png');
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  mix-blend-mode: screen;
-}
-.scan-ring {
-  position: absolute; z-index: 4; left: 0; top: 0;
-  width: 170px; height: 170px; border-radius: 50%;
-  border: 1px solid var(--accent);
-  box-shadow: 0 0 26px -8px var(--accent), inset 0 0 26px -14px var(--accent);
-  transform: translate(calc(var(--mx, -999px) - 85px), calc(var(--my, -999px) - 85px));
-  opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
-}
-.hero-photo-frame:hover .scan-ring { opacity: 1; }
-@media (hover: none) { .scan-lens, .scan-ring { display: none; } }
 
 /* ---------- Cockpit HUD ---------- */
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
