@@ -862,6 +862,11 @@ p { color: var(--text-dim); line-height: 1.8; }
   transition: transform 0.9s cubic-bezier(0.35, 0.1, 0.2, 1);
 }
 .cert-card:hover .cert-inner { transform: rotateY(180deg); }
+/* A card with no scan behind it has nothing to flip to — it sits flat and
+   ignores hover and tap. The registry ID, seal and corner brackets stay, so
+   it still reads as part of the same set. */
+.cert-card.cert-flat:hover .cert-inner,
+.cert-card.cert-flat.is-flipped .cert-inner { transform: none; }
 .cert-front, .cert-back {
   position: absolute; inset: 0;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;

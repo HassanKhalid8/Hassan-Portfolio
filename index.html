@@ -806,7 +806,11 @@
               </div>
             </div>
           </div>
-            <div class="cert-card hoverable">
+            <!-- No scan for this one yet, so it stays a flat card: no back
+                 face, no flip on hover or tap, and no lightbox. Drop the
+                 certificate image into a .cert-back div and remove
+                 "cert-flat" to turn the reveal back on. -->
+            <div class="cert-card cert-flat">
               <div class="cert-inner">
                 <div class="cert-front">
                   <span class="cert-seal mono" aria-hidden="true">✓</span>
@@ -815,11 +819,6 @@
                 <p class="cert-issuer">Media Club, GIKI</p>
                 <span class="cert-date mono">MAY 2026</span>
                 <p class="cert-desc">Spearheading internal operations and cross-functional team coordination to execute high-impact media campaigns and large-scale campus productions.</p>
-                <span class="cert-flip-hint mono">HOVER TO REVEAL ⟲</span>
-              </div>
-              <div class="cert-back">
-                <!-- temporary: handover photo until the real certificate scan arrives -->
-                <img src="assets/cert2.jpg" alt="Receiving the Vice President certificate" />
               </div>
             </div>
           </div>

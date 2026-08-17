@@ -1064,10 +1064,13 @@ if (certsGrid) {
     id.className = 'cert-id mono';
     id.textContent = `CRT-${String(i + 1).padStart(3, '0')}`;
     card.querySelector('.cert-front').prepend(id);
+    /* a flat card (no scan yet) has no back face to hint at */
+    const back = card.querySelector('.cert-back');
+    if (!back) return;
     const hint = document.createElement('span');
     hint.className = 'cert-zoom-hint mono';
     hint.textContent = 'CLICK TO ENLARGE ⛶';
-    card.querySelector('.cert-back').appendChild(hint);
+    back.appendChild(hint);
   });
 
   /* ledger counters tick up when the section arrives */
@@ -1149,6 +1152,9 @@ if (certsGrid) {
     });
   }
   certCards.forEach((card) => {
+    /* nothing to reveal or enlarge — leave it inert rather than letting a tap
+       flip it to a blank face */
+    if (!card.querySelector('.cert-back img')) return;
     card.addEventListener('click', () => {
       /* on touch there's no hover-flip: first tap flips, second tap enlarges */
       if (touchMode && !card.classList.contains('is-flipped')) {
