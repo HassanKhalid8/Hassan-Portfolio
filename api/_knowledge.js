@@ -47,14 +47,15 @@ const KNOWLEDGE = `
 9. Instant Messaging (Python, Computer Networks) — Client-server instant messaging application in Python utilizing multi-threaded TCP sockets, custom binary framing, and synchronized queue state processing to handle concurrent broadcast and unicast message routing through a Tkinter GUI. Code: https://github.com/HassanKhalid8/instant-messaging
 
 ## EXPERIENCE
-- Full-Stack Intern @ ENUMS (Jul 2026 – Present, on-site) — Bridging client-side aesthetics with robust server-side logic to develop clean, efficient, user-centric digital solutions.
-- Machine Learning Intern @ FlyRank AI (Jul 2026 – Present, remote) — Building scalable ML pipelines and implementing efficient algorithms to bridge data science and production environments.
+- Full-Stack Intern @ ENUMS (Jul 2026 – Aug 2026, on-site; certificate earned) — Bridging client-side aesthetics with robust server-side logic to develop clean, efficient, user-centric digital solutions.
+- Machine Learning Intern @ FlyRank AI (Jul 2026 – Sep 2026, remote; certificate earned) — Building scalable ML pipelines and implementing efficient algorithms to bridge data science and production environments.
+- Generative AI Intern @ Decode Labs (Jul 2026 – Aug 2026, remote; certificate earned) — Engineering prompts, wiring LLM and image-generation APIs into real-world projects, and hardening their output for consistency and quality.
 - AI Intern @ NCL (Jun 2024 – Aug 2024, on-site) — Integrated cutting-edge AI models into functional, user-centric applications.
 - Vice President @ Media Club, GIKI (Sep 2023 – Present) — Joined out of a passion for video editing; now leads the teams and productions that shaped him.
 
 ## CERTIFICATIONS
 - IC Design Summer School — DreamBig (Aug 2025): intensive program on modern semiconductor design workflows and EDA tools.
-- Vice President — Media Club, GIKI (May 2026).
+- Vice President (Internal) — Media Club, GIKI (May 2026): certificate for the 2026–27 society term.
 - AI Fluency: Framework & Foundations — Anthropic (May 2026): Anthropic's 4D framework (delegation, description, discernment, diligence).
 - Claude 101 — Anthropic (Jun 2026): model capabilities, prompting techniques, practical workflows.
 - Claude Code 101 — Anthropic (Jul 2026): hands-on agentic development with Claude Code.
