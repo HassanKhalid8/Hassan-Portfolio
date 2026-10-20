@@ -3,7 +3,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8b5cf6,50:ec4899,100:22d3ee&height=230&section=header&text=Hassan%20Khalid&fontSize=64&fontColor=ffffff&fontAlignY=36&animation=fadeIn&desc=An%20interactive%203D%20portfolio%20%C2%B7%20scroll%20to%20fly&descSize=18&descAlignY=58" width="100%" alt="Hassan Khalid — 3D Portfolio" />
 
-<a href="https://YOUR-LIVE-URL">
+<a href="[https://YOUR-LIVE-URL](https://hassan-portfolio-gilt.vercel.app/)">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=22&duration=2800&pause=900&color=22D3EE&center=true&vCenter=true&width=640&lines=Computer+Engineering+%40+GIKI;Full-Stack+%C2%B7+Machine+Learning+%C2%B7+Generative+AI;Scroll+%E2%86%92+fly+through+11+color+zones;Steer+it+with+your+hand+%E2%9C%8B;Ask+the+AI+copilot+anything" alt="Typing animation" />
 </a>
 
