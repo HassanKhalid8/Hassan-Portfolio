@@ -3,16 +3,18 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8b5cf6,50:ec4899,100:22d3ee&height=230&section=header&text=Hassan%20Khalid&fontSize=64&fontColor=ffffff&fontAlignY=36&animation=fadeIn&desc=An%20interactive%203D%20portfolio%20%C2%B7%20scroll%20to%20fly&descSize=18&descAlignY=58" width="100%" alt="Hassan Khalid — 3D Portfolio" />
 
-<a href="[https://YOUR-LIVE-URL](https://hassan-portfolio-gilt.vercel.app/)">
+<a href="https://hassan-portfolio-gilt.vercel.app/">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=22&duration=2800&pause=900&color=22D3EE&center=true&vCenter=true&width=640&lines=Computer+Engineering+%40+GIKI;Full-Stack+%C2%B7+Machine+Learning+%C2%B7+Generative+AI;Scroll+%E2%86%92+fly+through+11+color+zones;Steer+it+with+your+hand+%E2%9C%8B;Ask+the+AI+copilot+anything" alt="Typing animation" />
 </a>
 
 <br/>
 
-<a href="https://YOUR-LIVE-URL"><img src="https://img.shields.io/badge/LIVE%20SITE-Launch%20%E2%86%92-8b5cf6?style=for-the-badge&labelColor=0d0a1a" alt="Live site" /></a>
+<a href="https://hassan-portfolio-gilt.vercel.app/"><img src="https://img.shields.io/badge/LIVE%20SITE-Launch%20%E2%86%92-8b5cf6?style=for-the-badge&labelColor=0d0a1a" alt="Live site" /></a>
 <a href="https://github.com/HassanKhalid8/Hassan-Portfolio/stargazers"><img src="https://img.shields.io/github/stars/HassanKhalid8/Hassan-Portfolio?style=for-the-badge&color=ec4899&labelColor=0d0a1a" alt="Stars" /></a>
 <img src="https://img.shields.io/badge/build%20step-none-22d3ee?style=for-the-badge&labelColor=0d0a1a" alt="No build step" />
 <img src="https://img.shields.io/github/last-commit/HassanKhalid8/Hassan-Portfolio?style=for-the-badge&color=a3e635&labelColor=0d0a1a" alt="Last commit" />
+
+<p><b>🌐 <a href="https://hassan-portfolio-gilt.vercel.app/">hassan-portfolio-gilt.vercel.app</a></b></p>
 
 </div>
 
@@ -166,6 +168,7 @@ node assets/cv/build-pdf.js   # assets/cv/resume.html → assets/CV.pdf (A4)
 ## 📡 Get in touch
 
 <p align="center">
+  <a href="https://hassan-portfolio-gilt.vercel.app/"><img src="https://img.shields.io/badge/Portfolio-Visit-8b5cf6?style=for-the-badge&logo=vercel&logoColor=white&labelColor=0d0a1a" /></a>
   <a href="https://www.linkedin.com/in/hassankhalid8/"><img src="https://img.shields.io/badge/LinkedIn-hassankhalid8-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=0d0a1a" /></a>
   <a href="https://github.com/HassanKhalid8"><img src="https://img.shields.io/badge/GitHub-HassanKhalid8-ffffff?style=for-the-badge&logo=github&logoColor=white&labelColor=0d0a1a" /></a>
   <a href="mailto:hassank8125@gmail.com"><img src="https://img.shields.io/badge/Email-Say%20hi-a78bfa?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0d0a1a" /></a>
